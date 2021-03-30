@@ -6,6 +6,7 @@ Technologies used
  - Thymeleaf 3.0.11
  - jQuery v3.2.1
  - Bootstrap v4.0.0
+ - AdminCAST - Bootstrap 4 admin dashboard template
  - Maven 4.0.0
  - MySQL 8.0.15
  
