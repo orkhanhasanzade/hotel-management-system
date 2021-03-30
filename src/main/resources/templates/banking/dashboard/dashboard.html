@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Project Report</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="banking/dashboard/transactionsShow"></th:block>
+
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				 Banking
+			</li>				
+		</ul>
+			
+		<!-- START PAGE CONTENT-->
+		<div class="page-heading">
+			<h1 class="page-title">
+					<i class="sidebar-item-icon fa fa-university"></i> 
+					Internal Banking	
+			</h1> 		
+		</div>
+		
+		<div class="page-content fade-in-up">	
+	
+		 	<div class="row">			  		
+			  		<!-- Total Projects -->
+			  		<div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#008B8B">
+                            <div class="ibox-body">
+                            	<div class="m-b-5">Total number of accounts</div>
+                                <h2 class="m-b-5 font-strong" th:text="${accountCount}"></h2>                               
+                                <i class="fa fa-database widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Tasks -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#228B22">
+                            <div class="ibox-body">                              
+                                <div class="m-b-5">Today's Transactions</div><i class="fa fa-exchange widget-stat-icon"></i>
+                                <h2 class="m-b-5 font-strong" th:text="${transactionCount}"></h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Expenses -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-danger color-white widget-stat" >
+                            <div class="ibox-body">                               
+                                <div class="m-b-5">Today's Expenses</div><i class="fa fa-money widget-stat-icon"></i>
+                                <h2 class="m-b-5 font-strong" th:text="${expenseCount}"></h2>
+                            </div>
+                        </div>
+                    </div>    
+  			  </div> 
+
+  			 <div class="ibox">
+				<div class="ibox-body">
+					<table id="accountTable2" class="table table-striped table-bordered" cellspacing="0" width="100%">							
+						<thead>
+								<tr>
+									<th>Number</th>
+									<th>Name</th>							   	    
+									<th>Owner employee</th>
+									<th>Balance</th>
+									<th></th>
+								</tr>
+						</thead>
+						<tbody>
+								<tr th:each="account : ${accounts}">
+									<td th:text="${account.number}"></td>
+									<td th:text="${account.name}"></td>																			
+									<td>
+										<span>
+										     <img class="img-circle" width="30" height="30"
+											 th:src="@{'/images/employees/' + ${account.employee.imagePath} }" >
+											 <a th:text="${account.employee.name + ' ' + account.employee.surname }"
+											 	th:href="@{/employee/show/} + ${account.employee.id}" ></a>
+										</span>
+									</td> 
+									<td th:text="${account.balance}"></td>
+									<td>
+										<button type="button" class="btn btn-info btnShowTransactions" 
+												th:href="@{/getTransactions/} + ${account.id}" >
+												Show Transactions
+										</button>
+									</td>
+								</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->	
+			
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+				  			  
+  		<script>		
+		$(document).ready(function()
+		{  
+			$('#accountTable2').DataTable( {
+		    });
+			
+			<!-- Show Project Tasks-->
+		 	$('.btnShowTransactions').on('click', function(event)
+		 	{
+				    //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();
+				    var href = $(this).attr('href');
+				
+				    $.get(href, function(data){
+				    	$("#modal-body-transactions").html(data);  
+				    });
+				
+				    $('#transactionsModal').modal('show'); 
+		    });
+			
+			
+		});		
+		</script>
+	</div>
+	<!-- page-content -->
+	</div>
+	<!-- content -->
+</body>
+</html>

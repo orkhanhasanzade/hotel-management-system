@@ -1,0 +1,57 @@
+			
+ 						
+	 				  	   <div class = "row">
+	                     	   <div class="col-sm-2 form-group">
+		                   				 <label>Id</label>
+		                   				 <input  value="" type="text" class="form-control" th:field="${attendance.id}" readonly />                        				        		
+		                	   </div>
+		                	   <div class="col-sm-6 form-group">							
+								  	 	 <label>Employee</label> 
+	                       			 	 <select class="form-control" th:field="${attendance.employee.id}">
+	                            				<option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" 
+	                            						th:value="${employee.id}" ></option> 
+	                       			  	 </select>
+	                       	    </div>
+		                  </div> 				  	  	
+					  	  <div class = "row"> 
+					  	  	   <div class="col-sm-6 form-group">	                		    
+	                   				 <label>Date</label>                   				 
+	                   				 <div class="input-group date">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="Date" th:field="${attendance.date}" readonly>
+                                    </div>   				                     				        		
+	                		    </div> 					  	  
+					  	  </div>				  	 
+ 						   <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   	                		   
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>In time</label>
+	                   				 <input value="" class="form-control" placeholder="In time"  id="inTime" th:field="${attendance.inTime}" />                        				        		
+	                		    </div> 
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>Out time</label>
+	                   				 <input value="" class="form-control" placeholder="Out time"  id="outTime" th:field="${attendance.outTime}" />                        				        		
+	                		    </div> 
+	                	  </div>	                	   					   						   						   						   				                      		                          		                         		    			   						   	                		    
+						  <script>
+						  $('#inTime').mask('99:99', {
+								placeholder : 'hh:mm'
+						  });
+						  $('#outTime').mask('99:99', {
+								placeholder : 'hh:mm'
+						  });
+						  </script>
+	                	   
+	                	   
+	                	   
+	                	   
+							
+	                	   
+	                	   
+	                	   
+	                	   
+                     	       
+		                                    
+	
+							
+							
+			

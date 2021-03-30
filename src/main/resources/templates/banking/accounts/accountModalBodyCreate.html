@@ -1,0 +1,29 @@
+
+ <table style="margin-left:5em;">
+		<tr>
+			<th><label for="number">Number:</label></th>
+			<td><input value="" type="text" id="number" name="number" /></td>
+		</tr>
+	
+		<tr>
+			<th><label for="name">Name:</label></th>
+			<td><input value="" type="text" id="name" name="name" /></td>
+		</tr>
+		
+		<tr>
+			<th><label for="employee">Employee:</label></th>
+			<td>
+				<select class="form-control" id="employee" name="employee" >
+	                <option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" th:value="${employee.id}" ></option> 
+	     	    </select>
+			</td>
+		</tr>
+		
+		<tr>
+			<th><label for="description">Description:</label></th>
+			<!-- <td><input value="" type="text" id="description" name="description" /></td> -->
+			<td>
+				<textarea rows="3"  value="" class="form-control" placeholder="Description"  id="description" name="description"></textarea> 
+			</td>
+		</tr>
+</table>	

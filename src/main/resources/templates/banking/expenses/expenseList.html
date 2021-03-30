@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Expenses</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="banking/expenses/expenseCreate"></th:block>
+	    <th:block th:include="banking/expenses/expenseEdit"></th:block>  
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Expenses
+				</li>				
+		</ul>
+ 
+		<div class="page-content fade-in-up">
+
+			<div id="taskTableContent">
+				<div class="ibox">
+
+					<div class="ibox-head" style="color: black;">
+						<h2 class="">
+							<i class="fa fa-money" aria-hidden="true"></i> Expenses
+						</h2>
+						<div id="test">
+							<button type="button" class="btn btn-default btnNewExpense" th:href="@{/expense/create}">
+										Add New
+						    </button>
+						    <button type="button" class="btn btn-info btnExpenses" th:href="@{/expenses/all}" >
+										All expenses
+						    </button>  
+						    <button type="button" class="btn btn-warning btnExpenses" th:href="@{/expenses/pending}" >
+										Pending
+						    </button> 
+						    <button type="button" class="btn btn-primary btnExpenses" th:href="@{/expenses/approved}" >
+										Approved
+						    </button> 
+						    <button type="button" class="btn btn-danger btnExpenses" th:href="@{/expenses/declined}" >
+										Declined
+						    </button> 
+						    <button type="button" class="btn btn-success btnExpenses" th:href="@{/expenses/paid}" >
+										Paid
+						    </button>  
+						</div>
+					</div>
+					<br></br>
+					<div class="ibox-body">
+					
+						<div>						
+						   <form th:action="@{/expenses-report-1}" id="expenseReportForm">
+							<div class="row">	
+														
+								<div class="col-sm-2 form-group">
+									<h6>Employee</h6>
+									<select class="form-control" id="employeeId" name="employeeId">
+										<option th:value="all">All employees</option>
+										<option th:each="employee : ${employees}"
+												th:text="${employee.name + ' ' + employee.surname}"
+												th:value="${employee.id}"></option>
+									</select>
+								</div>	
+								<div class="col-sm-2">
+									<br>
+									<button type="submit" class="btn btn-success">Search</button>
+								</div>
+							</div>							
+						  </form>					
+						</div>
+						
+						<div>						
+						   <form th:action="@{/expenses-report-2}" id="expenseReportForm2">
+							<div class="row">	
+														
+								<div class="col-sm-2 form-group">
+									<h6>Department</h6>
+									<select class="form-control" id="departmentId" name="departmentId">
+										<option th:value="all">All departments</option>
+										<option th:each="department : ${departments}"
+												th:text="${department.name}"
+												th:value="${department.id}"></option>
+									</select>
+								</div>	
+								<div class="col-sm-2">
+									<br>
+									<button type="submit" class="btn btn-success">Search</button>
+								</div>
+							</div>							
+						  </form>					
+						</div>
+						
+						<div id="report">
+					  	    <table id="expenseTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Date</th>
+											<th>Category</th> 
+										    <th>Currency</th> 
+										   	<th>Amount</th> 
+										   	<th>Description</th> 										   
+										   	<th>Department</th> 
+										   	<th>Employee Responsible</th> 
+										   	<th>Status</th> 	
+										   	<th>Approved By</th> 								
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tr th:each="expense : ${expenses}">
+										<td th:text="${expense.id}"></td>
+										<td th:text="${expense.date}"></td>
+										<td>
+										 	<span th:if="${expense.category == 'Meals'}">Meals</span>
+										    <span th:if="${expense.category == 'Entertainment'}">Entertainment</span>	
+										    <span th:if="${expense.category == 'Cleaning'}">Cleaning stuff</span>
+										    <span th:if="${expense.category == 'Repair'}">Repairs & Maintenance</span>
+										    <span th:if="${expense.category == 'Transportation'}">Transportation</span>
+										    <span th:if="${expense.category == 'Office'}">Office equipment</span>
+										    <span th:if="${expense.category == 'Other'}">Other</span>
+										 </td>
+										 <td th:text="${expense.currency}"></td>	
+										 <td th:text="${expense.amount}"></td>	
+										 <td th:text="${expense.description}"></td>	
+										 <td th:text="${expense.department.name}"></td>
+										 <td th:text="${expense.employee.name + ' ' + expense.employee.surname}"></td> 
+										 <td>
+										 	<span th:if="${expense.status == 'Paid'}" class="badge badge-pill badge-success">Paid</span>
+										 	<span th:if="${expense.status == 'Approved'}" class="badge badge-pill badge-primary">Approved</span>
+										 	<span th:if="${expense.status == 'Submitted'}" class="badge badge-pill badge-warning">Submitted</span>
+										 	<span th:if="${expense.status == 'Declined'}" class="badge badge-pill badge-danger">Declined</span>
+										  </td>
+										  <td></td>	
+										  <td>
+										  	<a	th:href="@{/expense/edit/} + ${expense.id}"
+										  		class="btn btn-default btn-xs m-r-5 btnEditExpense"
+										  		data-toggle="tooltip" data-original-title="Edit">
+										  		<i class="fa fa-pencil font-20"></i></a>
+										    <a	th:href="@{/expense/delete/} + ${expense.id}"
+										    	class="btn btn-default btn-xs" data-toggle="tooltip"
+										    	data-original-title="Delete"> 
+										    	<i class="fa fa-trash font-20"></i></a> 
+										   </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	<!-- report -->	
+					</div><!-- ibox-body -->					
+				</div><!-- ibox -->		
+		    </div>		
+		    
+		    <!-- scripts -->
+			<div data-th-replace="fragments/scripts :: scripts"></div> 
+		    
+		    <!-- PAGE LEVEL PLUGIN-->
+			<script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>
+		    
+			<script>		
+			$(document).ready(function()
+			{		
+
+				var table = $('#expenseTable').DataTable( {
+					dom: 'Bfrtip',
+			        buttons: [
+			          	  { 
+			        		extend: 'excel', 
+			        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+			        	  }
+			        ]
+			    });
+				table.buttons().container().appendTo($('#test'));
+				
+			});
+				<!-- Create New Expense Modal --> 
+		        $('.btnNewExpense').on('click', function(event)
+		        {
+		             //prevents redirection to blank page with JSON-Task-Object
+		             event.preventDefault(); 
+		             var href = $(this).attr('href');
+		             
+		             $.get(href, function(data){              	
+		             	 $("#modal-body-expense-create").html(data);
+		             });
+		           
+		             $('#newExpenseModal').modal('show'); 
+		        });			
+		        
+		        <!-- Edit Expense Modal-->
+		 		$('.btnEditExpense').on('click', function(event)
+		 		{
+				    //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();
+				    var href = $(this).attr('href');
+				
+				    $.get(href, function(data){
+				    	$("#modal-body-expense-edit").html(data);  
+				    });
+				
+				    $('#editExpenseModal').modal('show'); 
+				});		
+		 		
+		 		<!-- Show Pending Expenses -->
+			 	$('.btnExpenses').on('click', function(event)
+				{   //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();		    		 						  
+				    var href = $(this).attr('href');			    
+				    $.get(href, function(data)
+				    {			 
+				    	$("#report").empty();
+				        $("#report").append( data ); 			
+					});
+				});	 	
+			 	
+			 	$("#expenseReportForm").submit( function(event) 
+				{ 
+					 //prevents redirection to blank page with JSON-Task-Object
+					 event.preventDefault();	
+					 		
+					 //get form action url  
+					 let post_url = document.getElementById('expenseReportForm').action													
+												
+					 //Encode form elements for submission
+					 let form_data = $("#expenseReportForm :input").serializeArray();
+					 $.get(post_url, form_data, function(response) 
+					 {
+							$("#report").empty();			
+							$("#report").append(response);						
+					 });	 		
+				});
+
+			 	$("#expenseReportForm2").submit( function(event) 
+				{ 
+					//prevents redirection to blank page with JSON-Task-Object
+					event.preventDefault();	
+							 		
+					//get form action url  
+					let post_url = document.getElementById('expenseReportForm2').action													
+														
+					//Encode form elements for submission
+					let form_data = $("#expenseReportForm2 :input").serializeArray();
+					$.get(post_url, form_data, function(response) 
+					{
+						$("#report").empty();			
+						$("#report").append(response);						
+					});	 		
+				});			 				 		
+			</script>
+		</div> <!-- page-content -->
+
+	</div><!-- content -->
+
+</body>
+</html>
+	  

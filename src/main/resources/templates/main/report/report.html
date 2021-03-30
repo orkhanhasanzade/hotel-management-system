@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Guests Report</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="main/rooms/roomShow"></th:block>
+		<th:block th:include="main/reservations/reservationModal/reservationShow"></th:block>  
+
+		<!-- START PAGE CONTENT-->
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Guests Report
+				</li>			
+	    </ul>
+		
+		<div class="page-heading">
+		</div>
+
+		<div class="page-content fade-in-up">
+
+			<div class="ibox">
+				<div class="ibox-body">
+					<form th:action="@{/guests-report}" id="guestReportForm">
+						<div class="row">
+							<div class="col-sm-2 form-group">
+								<h6>Name</h6>
+								<input value="" type="text" class="form-control" id="name" name="name" />
+							</div>
+							<div class="col-sm-2 form-group">
+								<h6>Surname</h6>
+								<input value="" type="text" class="form-control" id="surname" name="surname" />
+							</div>
+							<div class="col-sm-2 form-group">
+								<h6>Middle name</h6>
+								<input value="" type="text" class="form-control" id="middlename" name="middlename" />
+							</div>
+							<div class="col-sm-2">
+								<br>
+								<button type="submit" class="btn btn-success">Search</button>
+							</div>
+						</div>
+					</form>
+				</div><!-- ibox-body -->			
+			</div><!-- ibox -->		
+
+		<div id="reports">
+			<div class="ibox" style="display: none;">
+				<div class="ibox-head" style="color: #495057;">
+					<h3>Guests Report</h3>
+					<div id="test">				
+					</div>	
+				</div>
+				<div class="ibox-body">
+						<table id="guestTable2" class="table table-bordered table-head" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Title</th>
+											<th>Name</th>
+											<th>Surname</th>
+											<th>Middlename</th>
+											<th>Address</th>
+										    <th>Image</th> 
+										    <th>Reservations</th>
+											<th>Rooms</th> 
+										</tr>
+									</thead>
+									<tbody>									
+									</tbody>
+								</table>
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->
+
+		</div><!-- id = "reports" -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+		<script>
+				$("#guestReportForm").submit( function(event) 
+				{ 
+ 					event.preventDefault(); //prevent default action
+				    //get form action url  
+					let post_url = document.getElementById('guestReportForm').action													
+										
+					//Encode form elements for submission
+					let form_data = $("#guestReportForm :input").serializeArray();
+					$.get(post_url, form_data, function(response) 
+					{
+						$("#reports").empty();			
+						$("#reports").append(response);						
+					});															
+			    });		
+				
+ 				var table = $('#guestTable2').DataTable( {
+					dom: 'Bfrtip',
+			        buttons: [
+			          	  { 
+			        		extend: 'excel', 
+			        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+			        	  }
+			        ]
+			    });
+				table.buttons().container().appendTo($('#test')); 
+		</script>
+	</div>
+	<!-- page-content -->
+	</div>
+	<!-- content -->
+</body>
+</html>

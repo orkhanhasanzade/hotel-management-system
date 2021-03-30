@@ -1,0 +1,78 @@
+
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Name</label> <input value="" type="text" class="form-control"
+			id="name" name="name" required />
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Status</label> <select class="form-control" id="status" name="status">
+			<option th:value="New">New</option>
+			<option th:value="Progress">In Progress</option>
+			<option th:value="Completed">Completed</option>
+			<option th:value="Hold">On Hold</option>
+			<option th:value="Cancelled">Cancelled</option>
+		</select>
+	</div>
+</div>
+<div class="row">
+		<div class="col-sm-6 form-group">	                		    
+	              <label>Start date</label>                   				 
+	              <div class="input-group date">
+                     <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                         <input class="form-control" type="text" placeholder="From" id="startDate" name="startDate" required>
+                   </div>   				                     				        		
+	    </div> 
+	    <div class="col-sm-6 form-group">	                		    
+	               <label>End date</label>                   				 
+	                <div class="input-group date">
+                         <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                           <input class="form-control" type="text" placeholder="To" id="endDate" name="endDate" required>
+                         </div>   				                     				        		
+	    </div> 	
+</div>
+<div class="form-group">
+	<label>Description</label> <input value="" type="text"
+		class="form-control" id="description" name="description" required/>
+</div>
+<div class="row">
+
+ 	<div class="col-sm-6 form-group">
+		<label>Project</label> 
+		<select data-placeholder="Choose project" class="chosen-select" style="" tabindex="4" id="project" name="project" th:required="true">
+			<option></option>
+			<option th:each="project : ${projects}" th:text="${project.name}" th:value="${project.id}"></option>
+		</select>
+	</div>
+	
+    <div class="col-sm-6 form-group" id = "employeesOfProject">
+		
+	</div>	 
+		
+</div>
+<script type="text/javascript">
+		$('select').chosen({
+			width : '200px'
+		});
+		
+		$("#project").change( function()
+		{   
+			var href = '/projectEmployees/' + $("#project").val();	
+			$.get(href, function(data)
+			{			
+				$("#employeesOfProject").empty( data );
+				$("#employeesOfProject").append( data );
+			});
+		});		
+		$('#startDate').datepicker({
+			format : 'yyyy/mm/dd',
+		});
+		$('#endDate').datepicker({
+			format : 'yyyy/mm/dd',
+		});
+		$('#startDate').mask('9999/99/99', {
+			   placeholder : 'yyyy/mm/dd'
+		});
+		$('#endDate').mask('9999/99/99', {
+			   placeholder : 'yyyy/mm/dd'
+		});
+</script>

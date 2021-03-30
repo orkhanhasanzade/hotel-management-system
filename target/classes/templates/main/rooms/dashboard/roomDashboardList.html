@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Room Dashboard</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+
+<style>
+.dot {
+	text-align: center;
+	height: 1.5em;
+	width: 45px;
+	background-color: white;
+	border-radius: 30%;
+	display: inline-block;
+	color: green;
+	font-size:1.2em; } 
+</style>
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Rooms Dashboard
+				</li>				
+		</ul>
+
+		<!-- START PAGE CONTENT-->
+		<div class="page-heading">
+			<h1 class="page-title">Rooms Dashboard</h1>
+		</div>
+		<div class="page-content fade-in-up" >
+			<div class="ibox">
+				<div class="ibox-body" >	
+									
+					<div class="row" >							
+						<th:block th:each="room : ${rooms}">								
+						
+									<div class="col-2" style = "text-align: center; font-family: Arial, Helvetica, sans-serif; padding-bottom: 1em;"	>
+										<div class="card" style = "background-color:#F0F0F0;">
+											 <div class="card-body"> 										 								 																																																											
+														<a th:href="@{/reservation/createFromDash/{id}(id=${room.id})}"  class = "btnRoomDashboardBtn"  >																												
+															<div th:if="${room.status == 'on' }" style="background-color: green;  padding-bottom: 1em; padding-top: 1em;">
+																<div class="dot" th:text="${room.roomNumber}"></div>
+															</div>												
+															<div th:if="${room.status == null }" style="background-color: red;  padding-bottom: 1em; padding-top: 1em;">
+																<div class="dot" th:text="${room.roomNumber}"></div>
+															</div>												
+														</a>	
+														<p class="card-text" th:text="${room.readiness}" ></p>															
+											</div>
+										</div>
+									</div>
+						</th:block>			
+					</div>
+
+	<div id="reservationCheckInForm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">				
+				<div class="modal-header">
+				    <h3 id="myModalLabel"></h3> 
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>				
+				</div> 	
+				<div class="modal-body" id="modal-body-dashboard-popup">
+								
+				</div>	
+				<div class="modal-footer">
+				</div>			
+			</div>
+		</div>
+	</div>  
+	<div id="newReservationForm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">		
+				<div class="modal-header">
+					<h3 id="myModalLabel">Reservation</h3>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>				
+				</div>			
+				<div class="modal-body" id="modal-body-dashboard-operations">	
+					
+				</div>				
+				<div class="modal-footer">
+				</div>			
+			</div>
+		</div>
+	</div>
+	
+	<!-- scripts -->
+	<div data-th-replace="fragments/scripts :: scripts"></div> 
+	
+	<!-- PAGE LEVEL PLUGIN-->
+   <script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>
+
+<script>
+(function($, window) {
+    'use strict';
+
+    var MultiModal = function(element) {
+        this.$element = $(element);
+        this.modalCount = 0;
+    };
+
+    MultiModal.BASE_ZINDEX = 1040;
+
+    MultiModal.prototype.show = function(target) {
+        var that = this;
+        var $target = $(target);
+        var modalIndex = that.modalCount++;
+
+        $target.css('z-index', MultiModal.BASE_ZINDEX + (modalIndex * 20) + 10);
+
+        // Bootstrap triggers the show event at the beginning of the show function and before
+        // the modal backdrop element has been created. The timeout here allows the modal
+        // show function to complete, after which the modal backdrop will have been created
+        // and appended to the DOM.
+        window.setTimeout(function() {
+            // we only want one backdrop; hide any extras
+            if(modalIndex > 0)
+                $('.modal-backdrop').not(':first').addClass('hidden');
+
+            that.adjustBackdrop();
+        });
+    };
+
+    MultiModal.prototype.hidden = function(target) {
+        this.modalCount--;
+
+        if(this.modalCount) {
+           this.adjustBackdrop();
+
+            // bootstrap removes the modal-open class when a modal is closed; add it back
+            $('body').addClass('modal-open');
+        }
+    };
+
+    MultiModal.prototype.adjustBackdrop = function() {
+        var modalIndex = this.modalCount - 1;
+        $('.modal-backdrop:first').css('z-index', MultiModal.BASE_ZINDEX + (modalIndex * 20));
+    };
+
+    function Plugin(method, target) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data('multi-modal-plugin');
+
+            if(!data)
+                $this.data('multi-modal-plugin', (data = new MultiModal(this)));
+
+            if(method)
+                data[method](target);
+        });
+    }
+
+    $.fn.multiModal = Plugin;
+    $.fn.multiModal.Constructor = MultiModal;
+
+    $(document).on('show.bs.modal', function(e) {
+        $(document).multiModal('show', e.target);
+    });
+
+    $(document).on('hidden.bs.modal', function(e) {
+        $(document).multiModal('hidden', e.target);
+    });
+}(jQuery, window));
+</script>	
+		
+	<script>
+	$(document).ready(function()
+	{       
+        <!-- Dashboard part --> 
+    	<!-- Room reservation from dashboard --> 
+    	$('.btnRoomDashboardBtn').on('click', function(event){
+             //prevents redirection to blank page with JSON-Task-Object
+             event.preventDefault();
+             var href_4 = $(this).attr('href');
+
+             $.get(href_4, function(data){
+            	 $("#modal-body-dashboard-operations").html(data); 
+             });
+
+             $('#newReservationForm').modal();
+         });
+
+    	<!-- Room reservation from dashboard --> 
+    	$('.btnDashAddCheckoutView').on('click', function(event){
+             //prevents redirection to blank page with JSON-Task-Object
+             event.preventDefault();
+             var href_4 = $(this).attr('href');
+
+             $.get(href_4, function(data){
+            	 $("#modal-body-dashboard-operations").html(data); 
+             });
+
+             $('#newReservationForm').modal();
+         });
+	});
+	</script>			
+
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->
+		</div>
+		<!-- page-content -->
+		
+	</div>
+	<!-- content -->
+	
+</body>
+</html>
+
+				

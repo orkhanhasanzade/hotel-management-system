@@ -1,0 +1,95 @@
+
+
+<div style = "border-color:deepskyblue; border-width:medium; border-style: solid;">
+	<div style = "background-color:deepskyblue; color: white;">
+		<br><h3 style = "margin-left:0.6em;">Payment Details</h3><br>
+	</div>
+	<div style = "background-color:#F5F5F5;">
+		<div style = "margin-left:1em; margin-right:1em; padding-top:1em;">	
+			<form id="form-sample-1" 
+				th:action="@{/paymentRes/} + ${id}" th:method="POST" >			
+								<div class="form-group">							
+									  	  <label for="rooms"><h6>Card type</h6></label> 
+		                       			  <select class="form-control" id="rooms" >
+		                            			<option value = "Master Card">Master Card</option> 
+		                            			<option value = "Visa">Visa</option> 
+		                       			  </select>
+		                       	</div>	
+			                	<div class="form-group">
+			                   			  <label><h6>Card holder name</h6></label>
+			                   			  <input type="text" class="form-control" name="cardName" />                        				        		
+			                	</div> 	                  	                    
+			                    <div class="form-group">
+				                   			  <label><h6>Card number</h6></label>
+				                   			  <input type="text" class="form-control" name="cardNumber" />                        				        		
+				                </div> 
+ 								<div class="form-group">
+						                		<label><h6>Expiration date</h6></label>							                									                			
+						                		<label style = "margin-left: 14.6em;"><h6>Security code</h6></label> 
+						                		<div class = "row">  
+							                	 		<div class="form-group col-sm-4">
+							                				<input type="text" class="form-control" placeholder = "MM" name="expMonth" />    				                			
+							                			</div> 
+							                			<div class="form-group col-sm-4">				                				  
+							                				<input type="text" class="form-control" placeholder = "YYYY" name="expYear" /> 
+							                			</div>	
+														<div class="form-group col-sm-4">														
+															<input type="text" class="form-control" placeholder = "CVV" name="cvv" />                        				        		
+					                 					</div> 				               								 						                						                		
+						                		</div>           			    
+						        </div>	 			                		                 			                         			                					                		                		    
+			                    <div class = "row">	    
+			                   	 	<div class="col-sm-12 form-group">               	                    
+		                				<button type="submit" class="btn btn-primary btn-block">Confirm Payment</button>
+		                		    </div>             
+			                    </div>	                    
+			  </form>
+		</div>	  
+	</div>	  
+	  
+</div>
+<script>
+$(document).ready(function(){
+		<!-- JQUERY validation-->
+		$("#form-sample-1").validate({
+		    rules: {
+		    	cardName: {
+		            minlength: 2,
+		            required: !0,
+		        },
+		        cardNumber: {
+		            required: !0,
+		            maxlength: 16,
+		            minlength: 16,
+		            number: true,
+		        },	       
+		        expMonth: {
+		            required: !0,
+		            maxlength: 2,
+		            minlength: 2,
+		            number: true,
+		        },
+		        expYear: {
+		            required: !0,
+		            maxlength: 4,
+		            minlength: 4,
+		            number: true,
+		        },
+		        cvv: {
+		            required: !0,
+		            maxlength: 3,
+		            minlength: 3,		
+		            number: true,
+		        },
+		    },
+		    errorClass: "help-block error",
+		    highlight: function(e) {
+		        $(e).closest(".form-group.row").addClass("has-error")
+		    },
+		    unhighlight: function(e) {
+		        $(e).closest(".form-group.row").removeClass("has-error")
+		    },
+		});
+});
+</script>
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Booked Rooms</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="main/rooms/roomCreate"></th:block>
+		<th:block th:include="main/rooms/roomEdit"></th:block>
+		<th:block th:include="main/rooms/roomShow"></th:block>
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Booked Rooms
+				</li>				
+		</ul>
+		
+		<div class="page-heading">
+				    <h1 class="page-title">Booked Rooms</h1>
+					<button type="button" class="btn btn-primary btnNewRoom">
+						Add New
+					</button>  
+		</div>	
+
+		<div class="page-content fade-in-up">
+
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+				 	<h5>List</h5>
+				</div>
+
+				<div class="ibox-body">
+											
+							<table id="roomTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Floor No</th>
+										<th>Room No</th>
+										<th>Room Type</th>
+										<th>Rent price</th>
+										<th>Booking status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="room : ${bookedRooms}">
+										<td th:text="${room.id}"></td>
+										<td th:text="${room.floor}"></td>
+										<td th:text="${room.roomNumber}"></td>
+										<td th:text="${room.type}"></td>
+										<td th:text="${room.rent}"></td>
+										<td>
+											<span class="badge badge-pill badge-danger">Booked</span>
+										</td>
+										<td>																												
+											<a th:href="@{/room/edit/} + ${room.id}"
+												class="btn btn-default btn-xs m-r-5 btnEditRoom"
+												data-toggle="tooltip" data-original-title="Edit"> <i
+												class="fa fa-pencil font-20"></i></a> 
+												
+											<a th:href="@{/room/delete/} + ${room.id}"
+												class="btn btn-default btn-xs" data-toggle="tooltip"
+												data-original-title="Delete"> <i
+												class="fa fa-trash font-20"></i></a></td>
+
+									</tr>
+								</tbody>
+							</table> 			
+
+			   	  </div>
+			   	  <!-- ibox-body -->			   	  
+			  </div>			
+			  <!-- ibox -->	
+	    </div>
+	    <!-- page-content -->
+	    
+	    <!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+	    
+	    <script>
+	            $(document).ready(function()
+				{
+					<!-- Datatables --> 
+					$('#roomTable').DataTable( {
+							dom: 'Bfrtip',
+					        buttons: [
+					            'copy', 'csv', 'excel', 'pdf', 'print'
+					        ]
+					});
+				});
+	    <!-- Create NEW room Modal -->
+    	$('.btnNewRoom').on('click', function(event)
+    	{
+    		 $('.newRoomForm #id').val('');
+    		 $('.newRoomForm #floor').val('');
+    		 $('.newRoomForm #roomNumber').val('');
+    		 $('.newRoomForm #type').val('');
+    		 $('.newRoomForm #rent').val('');
+    		 $('.newRoomForm #readiness').val('Clean');
+    	
+         	 $('.newRoomForm #newRoomModal').modal();  
+    	 });
+    	<!-- EDIT room modal-->
+        $('.btnEditRoom').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault();
+            var href_1 = $(this).attr('href');
+
+            $.get(href_1, function(room){
+            	$('.myForm #id').val(room.id);
+                $('.myForm #floor').val(room.floor);
+                $('.myForm #roomNumber').val(room.roomNumber);
+                $('.myForm #type').val(room.type);
+                $('.myForm #rent').val(room.rent);
+            });
+
+            $('.myForm #editModal').modal();
+        });
+	    </script>
+	</div>
+	<!-- content -->
+</body>
+</html>
+
+
+	
+						

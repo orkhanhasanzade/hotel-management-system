@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Files</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+	  <style>
+	  	.dataTables_filter { display: none; }
+	  </style>
+
+		<th:block th:include="project_management/files/fileCreate"></th:block>
+		<th:block th:include="project_management/files/fileEdit"></th:block>
+		<th:block th:include="project_management/files/projectShow"></th:block>
+		
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					File Manager
+				</li>				
+		</ul>
+
+		<div class="page-content fade-in-up">
+
+			<div class="ibox">
+
+				<div class="ibox-head" style="color: black;">
+					<h3>
+						<i class="fa fa-file" aria-hidden="true"></i> File Manager
+					</h3>
+					<div>
+						 <input type="text" id="searchFilter" placeholder="Search">					
+					<!-- 	 <button type="button" class="btn btn-primary btnNewFile" th:href="@{/file/create}"> -->
+						  <button type="button" class="button btnNewFile" th:href="@{/file/create}" 
+						  		  style="background-color: #3498db; border-color: #2c81ba; color:white;" >					
+								Add File
+			   			 </button> 
+			   		</div>
+				</div>
+
+				<div class="ibox-body">
+					<table id="fileTable" class="table table-bordered" cellspacing="0" width="100%">						
+						<thead class="table-head">
+							<tr>
+								<th>Name</th>
+						     	<th>Size</th>
+								<th>Type</th> 
+								<th>Project</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="file : ${files}">
+								<td th:text="${file.name}"></td>
+							 	<td th:text="${file.size}"></td>
+								<td th:text="${file.type}"></td> 
+								<td>
+									<span th:if="${file.project != null }">
+										<!-- <p th:text="${file.project.name}" ></p> -->
+										
+										<a class="btnShowProjectInfo" th:text="${file.project.name}"
+														 th:href="@{/getProject/} + ${file.project.id}">
+												Show
+										</a>
+										
+									</span>
+								 	<span th:if="${file.project == null }"> 
+										<p th:text="${'Not selected'}" ></p>
+									</span> 
+								</td>								
+								<td>
+									<a th:href="@{/file/edit/} + ${file.id}"
+									   class="btn btn-default btn-xs m-r-5 btnEditFile"
+									   data-toggle="tooltip" data-original-title="Edit"> <i
+									   class="fa fa-pencil font-20"></i></a> 
+									<a th:href="@{/file/delete/} + ${file.id}"
+									   class="btn btn-default btn-xs" data-toggle="tooltip"
+									   data-original-title="Delete"> <i
+									   class="fa fa-trash font-20"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->
+
+			<!-- Div where employee data for department  -->
+			<div id="div1" style="display: none;"></div>
+
+		</div>
+		<!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+		<script>				
+			<!-- Create New File Modal --> 
+	        $('.btnNewFile').on('click', function(event)
+	        {
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href = $(this).attr('href');
+	             
+	             $.get(href, function(data){              	
+	             	 $("#modal-body-file-create").html(data);
+	             });
+	           
+	             $('#newFileModal').modal('show'); 
+	         });
+			
+	        <!-- Edit File Modal-->
+	 		$('.btnEditFile').on('click', function(event)
+	 		{
+			    //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');
+			
+			    $.get(href, function(data){
+			    	$("#modal-body-file-edit").html(data);
+			    });
+			
+			    $('#editFileModal').modal('show');
+			});	
+	 		
+	 		<!-- Show Project Info-->
+		 	$('.btnShowProjectInfo').on('click', function(event)
+		 	{
+				 //prevents redirection to blank page with JSON-Task-Object
+				 event.preventDefault();
+				 var href = $(this).attr('href');
+				
+				 $.get(href, function(data){
+				     $("#modal-body-project-show").html(data);  
+				 });
+				
+				 $('#projectShowModal').modal('show'); 
+		    });
+	 		
+		$(document).ready(function()
+		{
+	 	 	var dataTable = $('#fileTable').DataTable( {
+								dom: 'Bfrtip',
+		        				buttons: [		            
+		        					      ]
+		   				 	}); 
+	 	 	$('#searchFilter').on( 'keyup', function () {
+	 	 		dataTable.search( this.value ).draw();
+	 	 	} ); 
+			
+		});		
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>
+

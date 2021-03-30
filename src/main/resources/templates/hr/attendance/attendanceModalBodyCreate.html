@@ -1,0 +1,46 @@
+ 						
+ 						
+	 				  	  <div class = "row">  
+	 				  	  		<div class="col-sm-6 form-group">							
+								  	 	 <label>Employee</label> 
+	                       			 	 <select class="form-control" id="employee" name="employee" >
+	                            				<option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" 
+	                            						th:value="${employee.id}" ></option> 
+	                       			  	 </select>
+	                       	    </div>			                       	 				   						   						   						   				                      		                          		                         		    			   						   		                		     
+					  	  </div>	
+					  	  <div class = "row"> 
+					  	  	   <div class="col-sm-6 form-group">	                		    
+	                   				 <label>Date</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_attendance">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="Date" id="date" name="date" >
+                                    </div>   				                     				        		
+	                		    </div> 					  	  
+					  	  </div>				  	 
+ 						  <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   	                		   
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>In time</label>
+	                   				 <input  value="" class="form-control" placeholder="In time"  id="inTime" name="inTime" />                        				        		
+	                		    </div> 
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>Out time</label>
+	                   				 <input  value="" class="form-control" placeholder="Out time"  id="outTime" name="outTime" />                        				        		
+	                		    </div> 
+	                	  </div>	              	   					   						   						   						   				                      		                          		                         		    			   						   	                		    
+						  <script>
+						  $('#datepicker_attendance').datepicker({
+							 	format : 'dd/mm/yyyy', 
+						  }); 						  
+						  $('#date').mask('99/99/9999', {
+								placeholder : 'dd/mm/yyyy'
+						  }); 						  
+						  $('#inTime').mask('99:99', {
+								placeholder : 'hh:mm'
+						  });
+						  $('#outTime').mask('99:99', {
+								placeholder : 'hh:mm'
+						  });
+						  </script>
+						  
+						  

@@ -1,0 +1,69 @@
+					
+											
+				<form action="#" th:action="@{/reservation/createFromDash}" th:method="POST" th:object="${reservation}">	
+				
+				
+					    <div class = "row">
+	                		  		<div class="col-sm-4 form-group">
+	                   				  	<label><h6>Status</h6></label>
+	                   				  	<input type="text" class="form-control" th:field="*{status}" readonly />                        				        		
+	                		  		</div>
+	                    </div>  
+	                    	                                      
+	                    <div class = "row">
+	                		  		<div class="col-sm-6 form-group">
+	                   				  	<label><h6>Meals</h6></label><br>              				                   			
+	                   			  		<input type="checkbox" id="breakfast" value="breakfast" th:field="*{meal}"> 
+	                   			  			<label for="breakfast">Breakfast-4.80$</label>                   			  			
+ 									 	<input style = "margin-left: 1em;" type="checkbox" id="lunch" value="lunch" th:field="*{meal}"> 
+ 											<label for="lunch">Lunch-10.24$</label>
+										 <input  style = "margin-left: 1em;" type="checkbox" id="dinner" value="dinner" th:field="*{meal}">
+ 											<label for="dinner">Dinner-16.00$</label>  											
+	                		  		</div>
+	                    </div>                   
+	                    		
+			 			<div class = "row">
+	                           		<div class="col-sm-4 form-group">
+	                   				 	 <label><h6>From date</h6></label>                   				 
+	                   				  	<input  value="" type="text" class="form-control" th:field="*{fromDate}" id="datepicker_from"/>            		
+	                		   		</div> 	      
+	                		   	    <div class="col-sm-4 form-group">
+	                   				  	<label><h6>To date</h6></label>
+	                   				  	<input  value="" type="text" class="form-control" th:field="*{toDate}" id="datepicker_to"/>                        				        		
+	                		  	    </div>
+	                		</div> 
+	                		
+                  	 		<div class = "row">                  	 	                         				
+                       				<div class="col-sm-4 form-group">							
+							  	  		<label for="guests"><h6>Guests:</h6></label> 
+                       			  		<select id="guests" class="form-control" th:field="*{guest}" >
+                            				<option th:each="guest : ${guests}" th:text="${guest.id}" th:value="${guest.id}"></option> 
+                       			  		</select>
+                       		  		</div>
+	                                            		  
+	                        		<div class="col-sm-4 form-group">							
+								  	  	<label for="rooms"><h6>Room:</h6></label> 
+								  	  	<select id="rooms" class="form-control" th:field="*{room}" readonly>
+                            				<option th:text="${room.id}" th:value="${room.id}"></option> 
+                       			  		</select>								
+	                       			</div>   	                       			                  			                      			                     			 
+                      	     </div>  	     
+							 
+							 <div class="form-group">
+								<!-- <button class="btn btn-info" type="submit">Create</button> -->
+								 <input  type="submit" th:disabled="${#lists.size(guests) == 0}" class="btn btn-primary"  value="Create"/>  
+							</div>           	            
+				</form> 
+				<script type="text/javascript">
+				$(document).ready(function() 
+				{
+						$('#datepicker_from').mask('9999-99-99', {
+							   placeholder : 'yyyy-mm-dd'
+						});
+						$('#datepicker_to').mask('9999-99-99', {
+							   placeholder : 'yyyy-mm-dd'
+						});
+				});
+				</script>
+
+				

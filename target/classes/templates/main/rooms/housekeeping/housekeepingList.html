@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Housekeeping</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="main/rooms/housekeeping/housekeepingEdit"></th:block>
+
+        <!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Housekeeping
+				</li>				
+		</ul>
+		
+		<div class="page-heading">
+				    <h1 class="page-title">Housekeeping</h1>
+		</div>	
+
+		<div class="page-content fade-in-up">
+
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+				 	<h5>List</h5>
+				</div>
+
+				<div class="ibox-body">
+											
+							<table id="roomTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Room No</th>
+										<th>Room Type</th>
+										<th>Booking status</th>
+										<th>Housekeeping status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="room : ${rooms}">
+										<td th:text="${room.id}"></td>
+										<td th:text="${room.roomNumber}"></td>
+										<td th:text="${room.type}"></td>
+										<td>
+										<p th:if="${room.status eq 'on'}" th:text="${'Avaliable'}"></p>
+										<p th:if="${room.status eq null }" th:text="${'Booked'}"></p>
+										</td>
+										<td>
+										 	<a th:text="${room.readiness}" th:href="@{/housekeeping/edit/} + ${room.id}" class=" btnEditRoomHouse"> 
+											</a> 									  
+										</td>
+									</tr>
+								</tbody>
+							</table> 						
+							
+
+			   	  </div>
+			   	  <!-- ibox-body -->			   	  
+			  </div>			
+			  <!-- ibox -->	
+			  
+			  <!-- scripts -->
+			  <div data-th-replace="fragments/scripts :: scripts"></div> 
+			  
+			  <script>
+			  $('.btnEditRoomHouse').on('click', function(event){
+		             //prevents redirection to blank page with JSON-Task-Object
+		             event.preventDefault(); 
+		             var href_3 = $(this).attr('href');
+		             
+		             $.get(href_3, function(room){              			            	 
+		            	 $('.myHousekeepingForm #id').val(room.id);
+			             $('.myHousekeepingForm #readiness').val(room.readiness);
+		             });		           
+		             $('.myHousekeepingForm #editHousekeepingModal').modal(); 
+		      });
+			  </script>
+			  
+	    </div>
+	    <!-- page-content -->
+	</div>
+	<!-- content -->
+</body>
+</html>
+
+
+	
+						

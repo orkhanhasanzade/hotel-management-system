@@ -1,0 +1,49 @@
+
+
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Id</label> 
+		<input value="" type="text" class="form-control" th:field="${payroll.id}" readonly />
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Year</label> 
+		<input value="" type="text" class="form-control" th:field="${payroll.year}" readonly />
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Month</label> 
+		<input value="" type="text" class="form-control"  th:value="${month}" readonly />
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Gross Salary</label> 
+		<input value="" type="text"	class="form-control" th:field="${payroll.grossSalary}" />
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Deductions</label> 
+		<input value="" type="text"	class="form-control" th:field="${payroll.deductions}" />
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Net Salary</label> 
+		<input value="" type="text"	class="form-control" th:field="${payroll.netSalary}" />
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Employee</label> 
+		<input value="" type="text"	class="form-control" th:value="${payroll.employee.name + ' ' + payroll.employee.surname}" readonly />
+	</div>
+</div>
+
+<label>Status</label>
+<br>
+<input type="radio" value="Unpaid" th:field="${payroll.status}">
+<label for="unpaid">Unpaid</label>
+<input type="radio" value="Paid" th:field="${payroll.status}">
+<label for="paid">Paid</label>
+
+
+
+

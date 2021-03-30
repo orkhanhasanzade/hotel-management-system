@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Departments</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+ 		<th:block th:include="hr/departments/departmentCreate"></th:block>
+	    <th:block th:include="hr/departments/departmentEdit"></th:block> 
+	    <th:block th:include="hr/employees/employeeEdit"></th:block> 
+		
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Departments
+				</li>				
+		</ul>	
+		
+		<div class="page-heading">
+			<h1 class="page-title">Departments</h1>
+			<button type="button" class="btn btn-primary btnNewDepartment" th:href="@{/department/create}">
+						Add New
+		    </button>  
+		</div>
+		
+		<div class="page-content fade-in-up">
+          
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+				 	<h5>List</h5>
+				</div>
+				
+				<div class="ibox-body">
+							<table id="departmentTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Name</th>
+											<th>Description</th> 	
+											<th>Employees</th>											
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="department : ${departments}">
+											<td th:text="${department.id}"></td>
+											<td th:text="${department.name}"></td>	
+											<td th:text="${department.description}"></td>	
+											<td>
+												<button type="button" class="btn btn-info btnShowEmployees" th:href="@{/employees/} + ${department.id}">
+												Show employees</button>
+											    <button type="button" class="btn btn-info btnHideEmployees">Hide</button>
+											</td>																																	
+									        <td>
+											   <a	th:href="@{/department/edit/} + ${department.id}"
+												    class="btn btn-default btn-xs m-r-5 btnEditDepartment"
+													data-toggle="tooltip" data-original-title="Edit"> 
+													<i class="fa fa-pencil font-20"></i></a>
+											   <a	th:href="@{/department/delete/} + ${department.id}"
+													class="btn btn-default btn-xs" data-toggle="tooltip"
+													data-original-title="Delete"> 
+													<i class="fa fa-trash font-20"></i></a> 
+											</td>																		
+										</tr>										
+									</tbody>
+							</table>																			
+
+				</div><!-- ibox-body -->
+			</div><!-- ibox -->
+			
+			<!-- Div where employee data for department  -->
+			<div id="div1" style = "display:none;" >			
+			</div>			
+			
+		</div> <!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+		<script>		
+		$(document).ready(function()
+		{	
+			$('#departmentTable').DataTable( {
+				dom: 'Bfrtip',
+		        buttons: [
+		            'copy', 'csv', 'excel', 'pdf', 'print'
+		        ]
+		    });
+			
+			<!-- Create New Department Modal -->
+			$('.btnNewDepartment').on('click', function(event)
+			{
+				 $('.newDepartmentForm #id').val('');
+				 $('.newDepartmentForm #name').val('');
+				 $('.newDepartmentForm #description').val('');
+			
+			 	 $('.newDepartmentForm #newDepartmentModal').modal();  
+			});
+			<!-- Edit Department Modal-->
+			$('.btnEditDepartment').on('click', function(event){
+			    //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');
+			
+			    $.get(href, function(department){
+			    	$('.myDepartmentForm #id').val(department.id);
+			    	$('.myDepartmentForm #name').val(department.name);
+			    	$('.myDepartmentForm #description').val(department.description);
+			    });
+			
+			    $('.myDepartmentForm #editDepartmentModal').modal(); 
+			});		
+			<!-- Show Employess Of Department -->
+			$('.btnShowEmployees').on('click', function(event)
+			{   //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');			    
+			    $.get(href, function(data)
+			    {			 
+					  $("#div1").empty();
+			          $("#div1").append( data ); 	
+			    });
+			});		
+			$(".btnShowEmployees").click(function()
+			{
+				$("#div1").fadeIn("slow");
+			});  				  
+			$(".btnHideEmployees").click(function()
+			{
+				$("#div1").fadeOut("slow");
+			});
+			
+		});		
+		</script>	
+
+	</div><!-- content -->
+
+</body>
+</html>
+

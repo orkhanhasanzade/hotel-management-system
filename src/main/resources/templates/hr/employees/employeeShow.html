@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Employee Profile</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item" aria-current="page">
+				 <a href="/list-employees">	Employee list </a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Employee profile
+				</li>				
+		</ul>
+
+		<div class="page-heading">
+		
+			<h1 class="page-title">Employee Profile</h1>
+		</div>
+
+		<div class="page-content fade-in-up">
+
+			<div class="row"><!-- row -->
+
+				<div class="col-lg-3 col-md-4">
+
+					<div class="ibox" th:object="${employee}">
+						<div class="ibox-body text-center">
+						
+							<div class="m-t-20">					
+								 	<img class="img-circle"  th:if="${employee.imagePath ne null }"
+								 		th:src="@{'/images/employees/' + ${employee.imagePath} }">	
+								 	<img class="img-circle" th:if="${employee.imagePath eq null }"   
+								 		th:src="@{'/images/users/avatar.jpg'}">									 	 								
+							</div>
+							<h5 class="font-strong m-b-10 m-t-10" th:field="*{name}"></h5>
+							<!-- <div class="m-b-20 text-muted">Web Developer</div> -->															
+						 	<div>
+										<h5 class="font-strong m-b-10 m-t-10"  th:text="${employee.name + ' ' +employee.surname}" ></h5>
+										<h6 class="font-strong m-b-10 m-t-10"  th:text="${'Id:' + ' ' + employee.id}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:text="${'Department:' + ' ' + employee.department.name}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '1' }" th:text="${'Designation: Hotel Manager'}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '2' }" th:text="${'Designation: Manager'}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '3' }" th:text="${'Designation: HR-executive'}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '4' }" th:text="${'Designation: Cook'}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '5' }" th:text="${'Designation: Waiter'}" style = "color:#4fabc6;"></h6>
+										<h6 class="font-strong m-b-10 m-t-10"  th:if="${employee.designation eq '6' }" th:text="${'Designation: Cleaner'}" style = "color:#4fabc6;"></h6>
+							</div> 
+							
+						</div><!-- ibox-body -->
+					</div><!-- ibox -->
+
+
+				</div><!-- col-lg-3 col-md-4 -->
+
+
+				<div class="col-lg-9 col-md-8">
+					<div class="ibox" th:object="${employee}">
+						<div class="ibox-body">						
+						 	<ul class="nav nav-tabs tabs-line">
+						 	 		<li class="nav-item">
+                                        <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-settings"></i> General info</a>
+                                    </li>  
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab-2" data-toggle="tab"> Leaves</a>
+                                    </li>                                                                   
+                         	</ul> 
+                         	<div class="tab-content">
+			                           <div class="tab-pane fade show active" id="tab-1">	
+			                           			<div class="row">
+			                           				<div class="col-sm-2 form-group">	
+			                           				    <label>Gender</label>
+			                           					<input class="form-control" type="text" th:field="*{gender}" readonly >
+			                           				</div>
+			                           					                           				
+			                           				<div class="col-sm-2 form-group">
+															<label>Status</label> 
+															<input class="form-control" type="text" th:field="*{status}" th:if="${employee.status eq 'Active'}"
+																	style="background-color:green; color:white;" readonly >
+															<input class="form-control" type="text" th:field="*{status}" th:if="${employee.status eq 'Inactive'}"
+																	style="background-color: #cc0000; color:white;" readonly >
+													</div>
+			                           			</div>																			  		
+												<div class="row">																	
+														<div class="col-sm-4 form-group">
+															<label>Name</label> <input class="form-control" type="text" th:field="*{name}" readonly >
+														</div>
+														<div class="col-sm-4 form-group">
+															<label>Surname</label> <input class="form-control" type="text" th:field="*{surname}" readonly >
+														</div>						
+												</div>
+												<div class="row">
+														<div class="col-sm-4 form-group">
+															<label>Middle Name</label> <input class="form-control"
+																type="text"  th:field="*{middleName}" readonly >
+														</div>
+														<div class="col-sm-4 form-group">
+															<label>Mobile number</label> <input class="form-control"
+																type="text"  th:field="*{mobileNumber}" readonly >
+														</div>																																	
+												</div>		
+												<div class = "row">
+													<div class="col-sm-4 form-group">
+														<label>Address</label> 
+														<input class="form-control" type="text" th:field="*{address}" readonly >
+													</div>
+													<div class="col-sm-4 form-group">
+														<label>Birthday</label> 
+														<input class="form-control" type="text" th:field="*{birthdate}" readonly >
+													</div>	  																						
+												</div>	
+												<div class = "row"><label></label></div>	
+												<div class = "row"> <label></label></div>
+												<div class = "row"><label></label></div>       
+												<div class = "row">
+												 	<div class="col-sm-4 form-group">
+														<label>Department</label> 
+														<input class="form-control" type="text" th:field="*{department.name}"  readonly >
+													</div>
+													<div class="col-sm-4 form-group">
+														<label>Designation</label> 
+														<input class="form-control" type="text" th:value="${'Hotel Manager'}" 
+																th:if="${employee.designation.id eq 1}" readonly >
+														<input class="form-control" type="text" th:value="${'Manager'}" 
+																th:if="${employee.designation.id eq 2}" readonly >
+														<input class="form-control" type="text" th:value="${'HR-executive'}" 
+																th:if="${employee.designation.id eq 3}" readonly >
+														<input class="form-control" type="text" th:value="${'Cook'}" 
+																th:if="${employee.designation.id eq 4}" readonly >
+														<input class="form-control" type="text" th:value="${'Waiter'}" 
+																th:if="${employee.designation.id eq 5}" readonly >
+														<input class="form-control" type="text" th:value="${'Cleaner'}" 
+																th:if="${employee.designation.id eq 6}" readonly >
+													</div>													
+												</div>																								
+											    <div class = "row">
+												 	<div class="col-sm-4 form-group">
+														<label>Staff</label> 
+														<input class="form-control" type="text" th:field="*{staff}" readonly >
+													</div>	
+													<div class="col-sm-4 form-group">
+														<label>Shift</label> 
+														<input class="form-control" type="text"	th:value="${'Morning- 04:00 AM - 10:00 AM'}" 
+														 		th:if="${employee.shift eq '1'}" readonly >
+														<input class="form-control" type="text"	th:value="${'Day- 10:00 AM - 04:00 PM'}" 
+																th:if="${employee.shift eq '2'}" readonly >
+														<input class="form-control" type="text"	th:value="${'Evening- 04:00 PM - 10:00 PM'}" 
+																th:if="${employee.shift eq '3'}" readonly >
+														<input class="form-control" type="text"	th:value="${'Night- 10:00 PM- 04:00 AM'}" 
+																th:if="${employee.shift eq '4'}" readonly >
+													</div>	 																						
+												</div>	
+												<div class = "row">
+													<div class="col-sm-4 form-group">
+														<label>Bonus grade</label> 
+														<input class="form-control" type="text" th:value="${ employee.bonusGrade + '%' }" readonly >
+													</div>	
+													<div class="col-sm-4 form-group">
+														<label>Salary per hour</label> 
+														<input class="form-control" type="text" th:value="${ employee.salary.amountPerHour + ' ' + employee.salary.currency}" readonly >
+													</div>											
+												</div>																					
+									</div>																    	
+			                        <div class="tab-pane fade" id="tab-2">
+			                        
+							                <table id="leaveTable2" class="table table-striped table-bordered" cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Id</th>
+															<th>Employee</th>
+															<th>Category</th> 	
+															<th>From</th>
+															<th>To</th>
+															<th>Hours</th>
+															<th>Description</th>											
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="leave : ${leaves}">
+															<td th:text="${leave.id}"></td>
+															<td>
+															       <span th:text="${leave.employee.name}"></span> 								      
+														           <span th:text="${leave.employee.surname}"></span>										
+															</td>
+															<td th:text="${leave.category}"></td>
+															<td th:text="${leave.fromDate}"></td>
+															<td th:text="${leave.toDate}"></td>
+															<td th:text="${leave.hours}"></td>
+															<td th:text="${leave.description}"></td>																																																		
+														</tr>										
+													</tbody>
+											</table>				                        
+			                        </div>                          
+			                    </div>   
+			                    
+						</div><!-- ibox-body -->
+					</div><!-- ibox -->
+				</div><!-- col-lg-9 col-md-8 -->
+			</div><!-- row -->
+	
+		</div>
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+		
+		<!-- page-content fade-in-up -->
+		<script>
+	 	$(document).ready(function()
+		{
+				
+				$('#leaveTable2').DataTable( {
+				
+					dom: 'Bfrtip',
+			        buttons: [
+			            'copy', 'csv', 'excel', 'pdf', 'print'
+			        ]
+			    });
+ 
+		}); 
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>

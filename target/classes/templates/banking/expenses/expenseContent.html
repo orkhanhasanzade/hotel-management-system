@@ -1,0 +1,88 @@
+
+		<table id="expenseTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Date</th>
+					<th>Category</th>
+					<th>Currency</th>
+					<th>Amount</th>
+					<th>Description</th>
+					<th>Department</th>
+					<th>Employee Responsible</th>
+					<th>Status</th>
+					<th>Approved By</th> 
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tr th:each="expense : ${chosenExpenses}">
+				<td th:text="${expense.id}"></td>
+				<td th:text="${expense.date}"></td>
+				<td>
+					<span th:if="${expense.category == 'Meals'}">Meals</span> 
+					<span th:if="${expense.category == 'Entertainment'}">Entertainment</span>
+					<span th:if="${expense.category == 'Cleaning'}">Cleaning stuff</span> 
+					<span th:if="${expense.category == 'Repair'}">Repairs & Maintenance</span> 
+					<span th:if="${expense.category == 'Transportation'}">Transportation</span>
+					<span th:if="${expense.category == 'Office'}">Office equipment</span> 
+					<span th:if="${expense.category == 'Other'}">Other</span>
+				</td>
+				<td th:text="${expense.currency}"></td>
+				<td th:text="${expense.amount}"></td>
+				<td th:text="${expense.description}"></td>
+				<td th:text="${expense.department.name}"></td>
+				<td th:text="${expense.employee.name + ' ' + expense.employee.surname }"></td>
+				<td>
+					<span th:if="${expense.status == 'Paid'}" class="badge badge-pill badge-success">Paid</span> 
+					<span th:if="${expense.status == 'Approved'}" class="badge badge-pill badge-primary">Approved</span> 
+					<span th:if="${expense.status == 'Submitted'}" class="badge badge-pill badge-warning">Submitted</span> 
+					<span th:if="${expense.status == 'Declined'}" class="badge badge-pill badge-danger">Declined</span>
+				</td>
+				<td></td>	
+				<td>
+				  <a th:href="@{/expense/edit/} + ${expense.id}" class="btn btn-default btn-xs m-r-5 btnEditExpense"
+					 data-toggle="tooltip" data-original-title="Edit"> 
+					 <i class="fa fa-pencil font-20"></i></a> 
+				  <a th:href="@{/expense/delete/} + ${expense.id}" class="btn btn-default btn-xs" data-toggle="tooltip"
+					 data-original-title="Delete"> <i class="fa fa-trash font-20"></i></a>
+				</td>
+			 </tr>
+			</tbody>
+		</table>
+
+  		    <script>		
+			$(document).ready(function()
+			{		
+				<!-- Create New Expense Modal --> 
+		        $('.btnNewExpense').on('click', function(event){
+		             //prevents redirection to blank page with JSON-Task-Object
+		             event.preventDefault(); 
+		             var href = $(this).attr('href');
+		             
+		             $.get(href, function(data){              	
+		             	 $("#modal-body-expense-create").html(data);
+		             });
+		           
+		             $('#newExpenseModal').modal('show'); 
+		        });
+				
+		        <!-- Edit Expense Modal-->
+		 		$('.btnEditExpense').on('click', function(event){
+				    //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();
+				    var href = $(this).attr('href');
+				
+				    $.get(href, function(data){
+				    	$("#modal-body-expense-edit").html(data);  
+				    });
+				
+				    $('#editExpenseModal').modal('show'); 
+				});	
+		 		
+		 	    $('#expenseTable').DataTable({
+		 			"lengthChange" : false
+		 	    });
+			});	
+			</script>	
+
+	

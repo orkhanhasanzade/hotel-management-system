@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">  
+
+<head>
+<title>Project Dashboard</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+		<!-- PAGE LEVEL STYLES -->	  
+		<link th:href="@{assets/fullcalendar-4.4.2/packages/core/main.css}" rel='stylesheet' />
+		<link th:href="@{assets/fullcalendar-4.4.2/packages/daygrid/main.css}" rel='stylesheet' />	
+	    <link th:href="@{assets/css/jquery-ui.css}" rel='stylesheet' />	
+	      
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Projects Dashboard
+				</li>				
+		</ul>
+		
+		<div class="page-heading">
+			<h1 class="page-title"><i class="sidebar-item-icon fa fa-th-large"></i> Dashboard</h1> 		
+		</div>
+
+		<div class="page-content fade-in-up">
+		
+			  <div class="row">
+			  		
+			  		<!-- Total Projects -->
+			  		<div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#008B8B">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${projectsCount}"></h2>
+                                <div class="m-b-5">Projects</div><i class="fa fa-folder-open widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Tasks -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#228B22">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${tasksCount}"></h2>
+                                <div class="m-b-5">Tasks</div><i class="fa fa-tasks widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+          
+  			  </div>  			  
+  			  <div class="row">
+	  			  	<div class="col-lg-8">  
+			  			  <div class="ibox">
+								<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+							 	<h5>Calendar</h5>
+								</div>			
+								<div class="ibox-body"> 			  		  			  
+						  			  <div id='calendar'></div>		  
+								</div>
+						  </div>
+					</div>
+					<div class="col-lg-4">					
+					  <div class="ibox">
+                              <div class="ibox-head" style = "background-color:#3498db; color:white;">
+                                	 <div class="ibox-title">Tasks</div> 
+                              </div> 
+                              <div class="ibox-body">  
+                                        <canvas id="pie-chart" style="height:360px;"></canvas> 
+                              </div>
+                   		  </div>			
+				  	</div>	 				  		  					  	
+			  </div>
+			  
+			  
+			  <div id="calendarModal" class="modal fade">
+				<div class="modal-dialog">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				        	<h4 id="modalTitle" class="modal-title"></h4>
+				            <button type="button" class="close" data-dismiss="modal">
+				            <span aria-hidden="true">×</span> 
+				            <span class="sr-only">close</span></button>				            
+				        </div>
+				        <div id="modalBody" class="modal-body"> 
+				        	 <h5 id="calendarStartDate"></h5>
+				        	 <h5 id="calendarEndDate"></h5>
+				        	 <div id="calendarStatus"></div>
+				        </div>
+				        <div class="modal-footer">
+				        </div>
+				    </div>
+				</div>
+			  </div>
+			  
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+			  	
+		 <!-- PAGE LEVEL SCRIPTS -->	 
+ 		<script th:src="@{assets/vendors/jquery-ui/jquery-ui.min.js}"></script> 
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/core/main.js}"></script>
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/daygrid/main.js}"></script>  
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/interaction/main.js}"></script> 
+		<script th:src="@{assets/js/moment.js}"></script>
+		<script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', function() 
+		{
+				var calendarEl = document.getElementById('calendar');		
+				var calendar = new FullCalendar.Calendar(calendarEl, 
+				{
+					plugins: [ 'dayGrid', 'interaction' ],						  												
+				    events: '/dashboard-tasks',
+				    
+			        eventClick:  function(info) 
+			        {
+			            $('#modalTitle').html(info.event.title);
+			            $('#calendarStartDate').html("Start:" +  moment(info.event.start).format('MMMM Do YYYY'));
+			            $('#calendarEndDate').html("End:" + moment(info.event.end).format('MMMM Do YYYY'));
+			            
+			            if(info.event.backgroundColor == "#00BBE5")
+		            	{ $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-info">New</span></div>'); }
+			            else if(info.event.backgroundColor == "#0072bb")
+		            		 { $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-primary">In Progress</span></div>'); }
+			            else if(info.event.backgroundColor == "green")
+			            	 { $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-success">Completed</span></div>'); }
+			            else if(info.event.backgroundColor == "orange")
+			            	 {	$('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-warning">On Hold</span></div>'); }
+			            else if(info.event.backgroundColor == "red")
+			            	 {	$('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-danger">Cancelled</span></div>'); }			            
+			            $('#calendarModal').modal();
+			        }
+
+				});
+				calendar.render(); 
+			
+				new Chart(document.getElementById("pie-chart"), 
+				{
+						type: 'pie',
+						data: {
+								labels: ["New", "In Progress", "Completed", "On Hold", "Cancelled"],
+								datasets: [{
+									 backgroundColor: ["#23b7e5", "#3498db","#2ecc71","#f39c12","#e74c3c"],
+									 data: [ [[${newCount}]],[[${inProgressCount}]],[[${completedCount}]],[[${onHoldCount}]],[[${cancelledCount}]] ]
+								     }]
+							   }				    
+				});		
+					
+		});		
+		</script> 
+
+		</div> <!-- page-content -->
+	</div><!-- content -->
+
+</body>
+</html>

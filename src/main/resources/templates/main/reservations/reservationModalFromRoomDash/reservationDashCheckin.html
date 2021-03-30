@@ -1,0 +1,34 @@
+ 
+
+						<form th:action="@{/checkin/updateDash}" th:method="POST" th:object="${reservation}">
+
+		 					<div class="form-group">
+								<label>Id</label> 
+								<input value="" type="text" class="form-control"  th:field="*{id}" readonly />
+							</div>
+							
+							<div class="form-group">							
+							  	  <label>Status</label> 
+                       			  <input value="Success" type="text" class="form-control" readonly/>
+                       		</div>
+                        		
+                       		<div class="form-group">
+								  <label>Check-In date</label>
+								  <input value="" type="text" class="form-control" th:field="*{checkinDate}" id="check_in_date" placeholder="yyyy-mm-dd"  />
+							</div> 
+							
+						    <div class="form-group">
+								<button class="btn btn-info" type="submit">Submit</button>
+							</div>    
+							
+					   </form>
+					   <script type="text/javascript">
+				$(document).ready(function() 
+				{
+						$('#check_in_date').mask('9999-99-99', {
+							   placeholder : 'yyyy-dd-mm'
+						});
+				});
+				</script>
+
+ 

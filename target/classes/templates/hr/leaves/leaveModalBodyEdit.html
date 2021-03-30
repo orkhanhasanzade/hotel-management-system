@@ -1,0 +1,85 @@
+
+
+<div class="row">
+	<div class="col-sm-2 form-group">
+		<label>Id</label> <input value="" type="text" class="form-control"
+			th:field="${leave.id}" readonly />
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4 form-group">
+		<label>Leave Category</label> <select class="form-control"
+			th:field="${leave.category}">
+			<option th:value="Personal">Personal</option>
+			<option th:value="Sick">Sick</option>
+			<option th:value="Vacation">Vacation</option>
+			<option th:value="Study">Study</option>
+		</select>
+	</div>
+	<div class="col-sm-4 form-group">
+		<label>Employee</label> 
+		<select class="form-control" th:field="${leave.employee.id}">
+			<option th:each="employee : ${employees}"
+					th:text="${employee.name + ' ' + employee.surname}"
+					th:value="${employee.id}"></option>
+		</select>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4 form-group">
+		<label>From</label>
+		<div class="input-group date" id="datepicker_from2">
+			<span class="input-group-addon bg-white"><i
+				class="fa fa-calendar"></i></span> <input class="form-control" type="text"
+				placeholder="From" th:field="${leave.fromDate}">
+		</div>
+	</div>
+	<div class="col-sm-4 form-group">
+		<label>To</label>
+		<div class="input-group date" id="datepicker_to2">
+			<span class="input-group-addon bg-white"><i
+				class="fa fa-calendar"></i></span> <input class="form-control" type="text"
+				placeholder="To" th:field="${leave.toDate}">
+		</div>
+	</div>
+
+</div>
+<div class="row">
+	<div class="col-sm-4 form-group">
+		<label>From time</label> <input value="" class="form-control"
+			placeholder="HH:mm" id="fromTime" th:field="${leave.fromTime}" />
+	</div>
+	<div class="col-sm-4 form-group">
+		<label>To time</label> <input value="" class="form-control"
+			placeholder="HH:mm" id="toTime" th:field="${leave.toTime}" />
+	</div>
+	<div class="col-sm-4 form-group">
+		<label>Hours</label> <input value="" class="form-control"
+			placeholder="Hours" th:field="${leave.hours}" />
+	</div>
+</div>
+<div class="form-group">
+	<label>Reason/Description</label>
+	<textarea rows="3" value="" class="form-control"
+		placeholder="Description and notes" th:field="${leave.description}"></textarea>
+</div>
+
+<script>
+	$('#datepicker_from2').datepicker({
+		uiLibrary : 'bootstrap',
+		format: 'mm-dd-yyyy'
+	});
+	$('#datepicker_to2').datepicker({
+		uiLibrary : 'bootstrap',
+		format: 'mm-dd-yyyy'
+	});
+</script>
+
+
+
+
+
+
+
+
+

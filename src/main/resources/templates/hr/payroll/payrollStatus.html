@@ -1,0 +1,36 @@
+	
+	
+	
+	<div class="alert alert-success" th:if="${ status eq 'Success'}">
+	    		<strong>Success!</strong> Payroll Successfully Created for date     	    						   					
+	    												 <h6 th:text="${year}" class="inline-block"></h6>
+	    				 								 <h6 th:if="${month == 1}" th:text="${'January'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 2}" th:text="${'February'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 3}" th:text="${'March'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 4}" th:text="${'April'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 5}" th:text="${'May'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 6}" th:text="${'June'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 7}" th:text="${'July'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 8}" th:text="${'August'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 9}" th:text="${'September'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 10}" th:text="${'October'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 11}" th:text="${'November'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 12}" th:text="${'December'}" class="inline-block"></h6>		
+	</div>
+	
+	<div class="alert alert-danger" th:if="${ status eq 'Unsuccessful'}">
+	    		<strong>Unsuccessful!</strong> Payroll Already Exists for date
+	    												 <h6 th:text="${year}" class="inline-block"></h6>
+	    				 								 <h6 th:if="${month == 1}" th:text="${'January'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 2}" th:text="${'February'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 3}" th:text="${'March'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 4}" th:text="${'April'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 5}" th:text="${'May'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 6}" th:text="${'June'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 7}" th:text="${'July'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 8}" th:text="${'August'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 9}" th:text="${'September'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 10}" th:text="${'October'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 11}" th:text="${'November'}" class="inline-block"></h6>
+														 <h6 th:if="${month == 12}" th:text="${'December'}" class="inline-block"></h6>
+	</div>

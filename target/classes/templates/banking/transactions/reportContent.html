@@ -1,0 +1,58 @@
+
+<table id="transactionTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Date</th>
+			<th>Amount</th>
+			<th>Category</th>
+			<th>From Account</th>
+			<th>To Account</th>
+			<th>Account</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="transaction : ${transactions}">
+			<td th:text="${transaction.id}"></td>
+			<td th:text="${transaction.date}"></td>
+			<td th:text="${'$' + ' ' + transaction.amount}"></td>
+			<td>
+				<span th:if="${transaction.category == 'transfer'}">Transfer To</span> 
+				<span th:if="${transaction.category == 'income'}">Income Payment</span> 
+				<span th:if="${transaction.category == 'deposit'}">Deposit</span>
+				<span th:if="${transaction.category == 'withdraw'}">Withdraw</span>
+			</td>
+			<td>
+				<span th:text="${transaction.from.number}"
+					  th:if="${ transaction.from != null }"></span> 
+			    <span th:if="${ transaction.from == null }"></span>
+			</td>
+			<td>
+				<span th:text="${transaction.to.number}"
+					  th:if="${ transaction.to != null }"></span> 
+			    <span
+				      th:if="${ transaction.to == null }"></span>
+		    </td>
+			<td>
+				<span th:text="${transaction.account.number}"
+					  th:if="${ transaction.account != null }"></span> 
+				<span th:if="${ transaction.account == null }"></span>
+			</td>
+			<td th:text="${transaction.description}">
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script>
+$('#transactionTable').DataTable( {
+    "lengthChange": false
+});
+</script>
+
+
+
+
+
+
+

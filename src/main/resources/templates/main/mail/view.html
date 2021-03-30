@@ -1,0 +1,22 @@
+
+ 
+				<div class="col-lg-9 col-md-8">							
+					 <div class="ibox" id="mailbox-container">
+					 	<div id="mailPart">
+	                        <div class="mailbox-header d-flex justify-content-between" style="border-bottom: 1px solid #e8e8e8;">	                        
+		                           <div>
+	                                    <h5 class="inbox-title" th:text="${mail.subject}"></h5>
+	                                    <div class="m-t-5 font-13">
+	                                        <span class="font-strong" th:text="${mail.fromAddress}"></span>
+	                                    </div>
+	                                    <div class="p-r-10 font-13" th:text="${mail.sentDate}"></div>
+	                                </div>
+	                        </div>
+	                        <div class="mailbox-body">
+                                <p th:text="${mail.mailContent}"></p>
+                            </div>   
+                       </div>                             
+					</div>
+			</div>
+
+

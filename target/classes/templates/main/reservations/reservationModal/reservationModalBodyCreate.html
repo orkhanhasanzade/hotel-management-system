@@ -1,0 +1,51 @@
+
+
+
+
+<div class="form-group">
+	<label>From date</label> 
+	<input value="" type="text" class="form-control" id="fromDate" name="fromDate" />
+</div>
+
+<div class="form-group">
+	<label>To date</label> 
+	<input value="" type="text" class="form-control" id="toDate" name="toDate" />
+</div>
+
+<div class="form-group">
+	<label>Status</label> 
+	<input value="Pending" type="text" class="form-control" id="status" name="status" readonly />
+</div>
+
+<div class="row">
+	<div class="col-sm-4 form-group">
+		<label for="guests"><h6>Guest:</h6></label> 
+		<select class="form-control" id="guest" name="guest">
+			<option th:each="guest : ${guests}" th:text="${guest.id}"></option>
+		</select>
+	</div>
+
+	<div class="col-sm-4 form-group">
+		<label for="rooms"><h6>Room:</h6></label> 
+		<select class="form-control" id="room" name="room">
+			<option th:each="room : ${rooms}" th:text="${room.id}"></option>
+		</select>
+	</div>
+</div>
+<script>
+$(document).ready(function() 
+{		
+	$('#fromDate').datepicker({
+		   format : 'yyyy/mm/dd',
+	});
+	$('#toDate').datepicker({
+		   format : 'yyyy/mm/dd',
+	});
+	$('#fromDate').mask('9999-99-99', {
+		   placeholder : 'yyyy-mm-dd'
+	});
+	$('#toDate').mask('9999-99-99', {
+		   placeholder : 'yyyy-mm-dd'
+	});
+});
+</script>

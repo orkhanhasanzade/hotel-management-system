@@ -1,0 +1,91 @@
+
+<script>		
+$(document).ready(function()
+{		
+	<!-- Create New Payroll Modal --> 
+	$('.btnNewPayroll').on('click', function(event){
+			//prevents redirection to blank page with JSON-Task-Object
+			event.preventDefault(); 
+			var href = $(this).attr('href');
+					             
+			$.get(href, function(data){              	
+					$("#modal-body-payroll-create").html(data);  
+			});
+					           
+			$('#newPayrollModal').modal('show'); 
+	});
+	<!-- Edit Payroll Modal-->
+	$('.btnEditPayroll').on('click', function(event){
+			//prevents redirection to blank page with JSON-Task-Object
+			event.preventDefault();
+			var href = $(this).attr('href');
+					 		
+			$.get(href, function(data){
+				 $("#modal-body-payroll-edit").html(data);  
+			});
+					 		
+			$('#editPayrollModal').modal('show'); 
+	});
+	
+	var table = $('#payrollTable').DataTable( {
+		dom: 'Bfrtip',
+        buttons: [
+          	  { 
+        		extend: 'excel', 
+        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+        	  }
+        ]
+    });
+	table.buttons().container().appendTo($('#test'));
+});		
+</script>
+
+<div class="ibox">
+	<div class="ibox-head" style="background-color: #3498db; color: white;">
+		<h5 th:text="${ 'Payroll List for' + ' ' + year + ' ' + month}"></h5>
+		<div id="test">
+			<button type="button" class="btn btnNewPayroll" th:href="@{/payroll/create}">Add New Payslip</button>
+		</div>
+	</div>
+	<div class="ibox-body">
+		<table id="payrollTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Employee</th>
+					<th>Gross Salary</th>
+					<th>Deductions</th>
+					<th>Net Salary</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="payroll : ${payrolls}">
+					<td th:text="${payroll.id}"></td>
+					<td th:text="${payroll.employee.name  + ' ' + payroll.employee.surname}"></td>
+					<td th:text="${payroll.grossSalary + ' ' + 'Manat'}"></td>
+					<td th:text="${payroll.deductions + ' ' + 'Manat'}"></td>
+					<td th:text="${payroll.netSalary + ' ' + 'Manat'}"></td>
+					<td>
+						<span th:if="${payroll.status == 'Unpaid' }" class="badge badge-pill badge-danger">Unpaid</span> 
+						<span th:if="${payroll.status == 'Paid' }" class="badge badge-pill badge-success">Paid</span>
+					</td>
+					<td>
+						<a th:href="@{/payroll/edit/} + ${payroll.id}"
+							class="btn btn-default btn-xs m-r-5 btnEditPayroll"
+							data-toggle="tooltip" data-original-title="Edit"> 
+						<i	class="fa fa-pencil font-20"></i>
+						</a> 
+						<a th:href="@{/payroll/delete/} + ${payroll.id}"
+							class="btn btn-default btn-xs" data-toggle="tooltip"
+							data-original-title="Delete"> <i class="fa fa-trash font-20"></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><!-- ibox-body -->
+</div><!-- ibox -->
+
+

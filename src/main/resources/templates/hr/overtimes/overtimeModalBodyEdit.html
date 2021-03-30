@@ -1,0 +1,52 @@
+			
+ 						
+	 				  	   <div class = "row">
+	                     	   <div class="col-sm-2 form-group">
+		                   				 <label>Id</label>
+		                   				 <input  value="" type="text" class="form-control" th:field="${overtime.id}" readonly />                        				        		
+		                	   </div>
+		                  </div> 				  	  
+	 				  	  <div class = "row">  
+	 				  	  		<div class="col-sm-6 form-group">							
+								  	 	 <label>Employee</label> 
+	                       			 	 <select class="form-control" th:field="${overtime.employee.id}">
+	                            				<option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" 
+	                            						th:value="${employee.id}" ></option> 
+	                       			  	 </select>
+	                       	    </div>			                       	 				   						   						   						   				                      		                          		                         		    			   						   		                		     
+					  	  </div>	
+					  	  <div class = "row"> 
+					  	  	   <div class="col-sm-6 form-group">	                		    
+	                   				 <label>Date</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_overtime2">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="Date" th:field="${overtime.date}" >
+                                    </div>   				                     				        		
+	                		    </div> 					  	  
+					  	  </div>				  	 
+ 						  <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   	                		   
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>No.of Hours</label>
+	                   				 <input  value="" class="form-control" placeholder="Hours" th:field="${overtime.hours}" />                        				        		
+	                		    </div> 
+	                	  </div>	                	   					   						   						   						   				                      		                          		                         		    			   						   	                		    
+						  <script>
+						  $('#datepicker_overtime2').datepicker({
+					    		uiLibrary: 'bootstrap'
+						  });
+						  </script>
+	                	   
+	                	   
+	                	   
+	                	   
+							
+	                	   
+	                	   
+	                	   
+	                	   
+                     	       
+		                                    
+	
+							
+							
+			

@@ -1,0 +1,62 @@
+
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Category</label> <select class="form-control" id="category"
+			name="category">
+			<option th:value="Meals">Meals</option>
+			<option th:value="Entertainment">Entertainment</option>
+			<option th:value="Cleaning">Cleaning stuff</option>
+			<option th:value="Repair">Repairs & Maintenance</option>
+			<option th:value="Transportation">Transportation</option>
+			<option th:value="Office">Office equipment</option>
+			<option th:value="Other">Other</option>
+		</select>
+	</div>
+		<div class="col-sm-6 form-group">
+			<label>Currency</label> 
+			<input value="Dollar" type="text" class="form-control" id="currency" name="currency" readonly />
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Amount</label> 
+		<input value="" type="text" class="form-control" id="amount" name="amount" />
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Status</label> 
+		<input value="Submitted" type="text" class="form-control" id="status" name="status" readonly />
+	</div>
+</div>
+<div class="row">	
+	<div class="col-sm-6 form-group">
+		<label>Department</label> 
+		<select class="form-control" id="department" name="department">
+			<option th:each="department : ${departments}" th:text="${department.name}" th:value="${department.id}">
+			</option>
+		</select>
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Employee</label> 
+		<select class="form-control" id="employee" name="employee">
+			<option th:each="employee : ${employees}"
+					th:text="${employee.name + ' ' + employee.surname}"
+					th:value="${employee.id}">
+			</option>
+		</select>
+	</div>
+</div>
+<div class="form-group">
+	<label>Description</label> 
+	<input value="" type="text" class="form-control" id="description" name="description" />
+</div>
+<script>
+$(document).ready(function() 
+{
+	$('#date').datepicker({
+	 	format : 'dd/mm/yyyy/', 
+	});
+	$('#date').mask('99-99-9999', {
+		   placeholder : 'dd-mm-yyyy'
+	});
+});
+</script>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Payrolls</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="hr/payroll/payrollCreate"></th:block>
+		<th:block th:include="hr/payroll/payrollEdit"></th:block>
+	
+	    <!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Payroll
+				</li>				
+		</ul>
+
+		<div id="status"></div>
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+		
+		<script>		
+		$(document).ready(function()
+		{		
+			<!-- Generate payroll for date -->
+			$('.btnGeneratePayroll').on('click', function(event)
+			{   //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = '/generate/' + $("#date1").val() + '/' + $("#date2").val();  
+			    $.get(href, function(data) 
+			    {			 
+					  $("#status").empty();
+			          $("#status").append( data ); 	
+			    });
+
+			});	
+			
+			<!-- Show Payrolls Of Year And Month -->
+			$('.btnShowPayrolls').on('click', function(event)
+			{   //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = '/payrolls/' + $("#date3").val() + '/' + $("#date4").val();
+			    $.get(href, function(data) 
+			    {			 
+			    	  console.log('aaa');
+					  $("#payrolls").empty();
+			          $("#payrolls").append( data );
+			    });
+			});		
+			
+			$(".btnHidePayrolls").click(function()
+			{
+				   $("#payrolls").fadeOut("slow");
+			});
+			
+			$(".btnShowPayrolls").click(function()
+		    {
+				   $("#payrolls").fadeIn("slow");
+			}); 
+			
+		});		
+		</script>
+
+		<!-- START PAGE CONTENT-->
+		<div class="page-heading">
+			<br></br>
+			<div class="ibox">
+				<div class="ibox-head" style="background-color: #0b85a2; color: white;">
+					<h5>Generate Payroll</h5>
+				</div>
+				<div class="ibox-body">
+					<div style="display: flex;">
+						<div class="col-sm-1">
+							<select class="form-control" id="date1">
+								<option th:value="${'2020'}">2020</option>
+								<option th:value="${'2021'}">2021</option>
+								<option th:value="${'2022'}">2022</option>
+								<option th:value="${'2023'}">2023</option>
+								<option th:value="${'2024'}">2024</option>
+								<option th:value="${'2025'}">2025</option>
+							</select><br>
+						</div>
+						<div class="col-sm-2">
+							<select class="form-control" id="date2">
+								<option th:value="${'1'}">January</option>
+								<option th:value="${'2'}">February</option>
+								<option th:value="${'3'}">March</option>
+								<option th:value="${'4'}">April</option>
+								<option th:value="${'5'}">May</option>
+								<option th:value="${'6'}">June</option>
+								<option th:value="${'7'}">July</option>
+								<option th:value="${'8'}">August</option>
+								<option th:value="${'9'}">September</option>
+								<option th:value="${'10'}">October</option>
+								<option th:value="${'11'}">November</option>
+								<option th:value="${'12'}">December</option>
+							</select><br>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-primary btn-block btnGeneratePayroll">GO</button>
+						</div>
+					</div>
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->
+
+
+			<div class="ibox">
+				<div class="ibox-head" style="background-color: #0b85a2; color: white;">
+					<h5>Show Payrolls</h5>
+				</div>
+				<div class="ibox-body">
+					<div style="display: flex;">
+					
+						<div class="col-sm-1">
+							<select class="form-control" id="date3">
+								<option th:value="${'2020'}">2020</option>
+								<option th:value="${'2021'}">2021</option>
+								<option th:value="${'2022'}">2022</option>
+								<option th:value="${'2023'}">2023</option>
+								<option th:value="${'2024'}">2024</option>
+								<option th:value="${'2025'}">2025</option>
+							</select>
+						</div>
+						
+						<div class="col-sm-2">
+							<select class="form-control" id="date4">
+								<option th:value="${'1'}">January</option>
+								<option th:value="${'2'}">February</option>
+								<option th:value="${'3'}">March</option>
+								<option th:value="${'4'}">April</option>
+								<option th:value="${'5'}">May</option>
+								<option th:value="${'6'}">June</option>
+								<option th:value="${'7'}">July</option>
+								<option th:value="${'8'}">August</option>
+								<option th:value="${'9'}">September</option>
+								<option th:value="${'10'}">October</option>
+								<option th:value="${'11'}">November</option>
+								<option th:value="${'12'}">December</option>
+							</select>
+						</div>				
+						
+						<button type="button" class="btn btn-info btnShowPayrolls">Show Payrolls</button>
+						<button type="button" class="btn btn-warning btnHidePayrolls">Hide</button>
+					</div>
+				</div>
+				<!-- ibox-body -->
+			</div>
+			<!-- ibox -->
+
+		</div>
+
+		<div class="page-content fade-in-up">
+			<div id="payrolls"></div>
+		</div>
+		<!-- page-content -->
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>
+

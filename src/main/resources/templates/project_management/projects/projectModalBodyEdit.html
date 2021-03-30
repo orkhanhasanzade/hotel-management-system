@@ -1,0 +1,39 @@
+
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Id</label> <input value="" type="text" class="form-control" th:field="${project.id}" readonly />			 
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Name</label> <input value="" type="text" class="form-control" th:field="${project.name}" required />			
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Status</label> <select class="form-control" th:field="${project.status}"  >
+			<option th:value="Progress">In Progress</option>
+			<option th:value="Completed">Completed</option>
+			<option th:value="Cancelled">Cancelled</option>
+		</select>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Employees</label> 
+			<select data-placeholder="Choose employees	" class="chosen-select"  multiple style="" 
+					tabindex="4" th:field="${project.employees}" th:required="true">		
+			<option th:each="employee : ${employees}" th:text="${employee.name + ' ' + employee.surname}"				
+					th:value="${employee.id}" ></option>
+		</select>
+	</div>
+</div>
+<div class="form-group">
+	<label>Description</label> 
+	<input value="" type="text" class="form-control" th:field="${project.description}" required />			
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').chosen({
+			width : '200px'
+		});
+	});
+</script> 

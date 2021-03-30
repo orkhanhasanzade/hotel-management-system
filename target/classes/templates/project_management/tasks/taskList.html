@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Tasks</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+		<link th:href="@{/assets/css/chosen.min.css}" rel="stylesheet" />
+
+	 	<th:block th:include="project_management/tasks/taskCreate"></th:block> 
+ 		<th:block th:include="project_management/tasks/taskEdit"></th:block> 
+	 	<th:block th:include="project_management/tasks/projectShow"></th:block> 
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Tasks
+				</li>				
+		</ul>
+ 
+		<div class="page-content fade-in-up">
+
+			<div id="taskTableContent">
+				<div class="ibox">
+
+					<div class="ibox-head" style="color: black;">
+						<h2 class="">
+							<i class="fa fa-tasks" aria-hidden="true"></i> Tasks
+						</h2>
+						<button type="button" class="btn btn-primary btnNewTask" th:href="@{/task/create}">
+							Add New Task</button>
+					</div>
+					<br>
+					<div style="margin-left: 1.5em;">
+						<button type="button" class="btn btn-default btnGetTasks" 	th:href="@{/tasks/1}">All tasks</button>							
+						<button type="button" class="btn btn-info 	 btnGetTasks" 	th:href="@{/tasks/2}">New</button>
+						<button type="button" class="btn btn-primary btnGetTasks"  	th:href="@{/tasks/3}">In Progress</button>							
+						<button type="button" class="btn btn-success btnGetTasks" 	th:href="@{/tasks/4}">Completed</button>
+						<button type="button" class="btn btn-warning btnGetTasks" 	th:href="@{/tasks/5}">On Hold</button>							
+						<button type="button" class="btn btn-danger  btnGetTasks" 	th:href="@{/tasks/6}">Cancelled</button>
+						<br></br>
+					</div>
+					<div class="ibox-body">
+						<table id="taskTable" class="table table-striped table-bordered" cellspacing="0" width="100%">							
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Start date</th>
+									<th>End date</th>
+							   	    <th>Assigned To</th> 
+									<th>Project</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="task : ${tasks}">
+									<td th:text="${task.name}"></td>
+									<td th:text="${task.description}"></td>
+									<td th:text="${task.startDate}"></td>
+									<td th:text="${task.endDate}"></td>										
+									<td>
+										<span>
+										     <img class="img-circle" width="30" height="30"
+											 th:src="@{'/images/employees/' + ${task.employee.imagePath} }" >
+											 <a th:text="${task.employee.name + ' ' + task.employee.surname }"
+											 	th:href="@{/employee/show/} + ${task.employee.id}" ></a>
+										</span>
+									</td> 
+									<td>									
+											<a th:href="@{/projectInfo/{id}(id=${task.project.id})}" class = "btnShowProject" >
+                                             				<span th:text="${task.project.name}"></span>
+									     	</a>									
+									</td>
+									<td>
+										<span th:if="${task.status == 'New'}" class="badge badge-info">New</span> 
+										<span th:if="${task.status == 'Progress'}" class="badge badge-primary">In Progress</span>	  
+										<span th:if="${task.status == 'Completed'}" class="badge badge-success">Completed</span> 
+										<span th:if="${task.status == 'Hold'}" class="badge badge-warning">On Hold</span>	 
+										<span th:if="${task.status == 'Cancelled'}" class="badge badge-danger">Cancelled</span> 
+										<span th:if="${task.status == ''}" class="badge badge-secondary">Not selected</span>	 
+									</td>
+									<td>
+										<a  th:href="@{/task/edit/} + ${task.id}"
+											class="btn btn-default btn-xs m-r-5 btnEditTask"
+											data-toggle="tooltip" data-original-title="Edit"> 
+											<i class="fa fa-pencil font-20"></i></a> 										
+										<a  th:href="@{/task/delete/} + ${task.id}"
+											class="btn btn-default btn-xs" data-toggle="tooltip"
+											data-original-title="Delete"> 
+											<i class="fa fa-trash font-20"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<!-- ibox-body -->
+				</div>
+				<!-- ibox -->
+			</div>
+		</div>
+		<!-- page-content -->
+	
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+	 	<script th:src="@{/assets/js/chosen.jquery.min.js}"></script> 
+		
+		<!-- PAGE LEVEL PLUGIN-->
+		<script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>
+		
+		<script>		
+		$(document).ready(function()
+		{					
+			$('#taskTable').DataTable( {
+				dom: 'Bfrtip',
+		        buttons: [
+		            'copy', 'csv', 'excel', 'pdf', 'print'
+		        ]
+		    });
+		 });	
+			 <!-- Create New Task Modal --> 
+	         $('.btnNewTask').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href = $(this).attr('href');
+	             
+	             $.get(href, function(data){              	
+	             	 $("#modal-body-task-create").html(data);
+	             });
+	           
+	             $('#newTaskModal').modal('show'); 
+	         });
+			
+	        <!-- Edit Task Modal-->
+	 		$('.btnEditTask').on('click', function(event){
+			    //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');
+			
+			    $.get(href, function(data){
+			    	$("#modal-body-task-edit").html(data);  
+			    });
+			
+			    $('#editTaskModal').modal('show'); 
+			});	
+	 		
+	 		<!-- Show Project Details-->
+		 	$('.btnShowProject').on('click', function(event){
+				    //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();
+				    var href = $(this).attr('href');
+				
+				    $.get(href, function(data){
+				    	$("#modal-body-project").html(data);  
+				    });
+				
+				    $('#projectModal').modal('show'); 
+		    });	
+			
+			<!-- Show Needed Tasks -->
+			$('.btnGetTasks').on('click', function(event)
+			{   //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();	
+				var href = $(this).attr('href');	
+				$.get(href, function(data)
+				{		
+					 $("#taskTableContent").empty( ); 
+					 $("#taskTableContent").append( data ); 			          	
+				 });
+			});				
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>
+

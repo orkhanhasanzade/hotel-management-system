@@ -1,0 +1,106 @@
+                     	  
+                     	  
+                     	   <div class = "row">
+	                     	   <div class="col-sm-6 form-group">
+		                   				 <label>Id</label>
+		                   				 <input  value="" type="text" class="form-control" th:field="${employee.id}" readonly />                        				        		
+		                	   </div>
+		                	   <div class="col-sm-6 form-group">	                		    
+	                   				 <label>Birthday</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_birthday_edit">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="Birthday" th:field="${employee.birthdate}" >
+                                    </div>   				                     				        		
+	                		    </div> 
+		                   </div> 
+                     	   <div class = "row">  
+                               <div class="col-sm-6 form-group">
+	                   				 <label>Gender</label>
+	                   				 <select class="form-control" th:field="${employee.gender}" >
+                            			<option th:value="Male">Male</option> 
+                            			<option th:value="Female">Female</option> 
+                       			  	 </select>                       				        		
+	                		   </div> 
+	                		   <div class="col-sm-6 form-group">
+                   					 <label>Status</label>
+                   					 <select class="form-control" th:field="${employee.status}" >
+                       			        <option th:value="Active">Active</option> 
+                            			<option th:value="Inactive">Inactive</option>                        		
+                       			  	 </select>                     				        		
+                		   		</div>	  	                		                         
+                           </div>                      
+						   <div class = "row">  			                		    	   
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Name</label>
+	                   				 <input  value="" type="text" class="form-control" placeholder="Name" th:field="${employee.name}" />                        				        		
+	                		   </div> 
+                		   	   <div class="col-sm-6 form-group">
+		                   				 <label>Surname</label>
+		                   				 <input  value="" type="text" class="form-control" placeholder="Surname" th:field="${employee.surname}"  />                        				        		
+		                	   </div>                 		                  		               		   
+	                	   </div>
+	                	   <div class = "row">   	   	                   	   
+			                   <div class="col-sm-6 form-group">
+			                   			 <label>Middle name</label>
+			                   			 <input  value="" type="text" class="form-control" placeholder="Middle name"  th:field="${employee.middleName}" />                        				        		
+			                   </div> 
+			                   <div class="col-sm-6 form-group">
+                   				 <label>Staff type</label>
+                   				 <select class="form-control" th:field="${employee.staff}" >
+                            			<option th:value="Full-time">Full-time</option> 
+                            			<option th:value="Part-time">Part-time</option> 
+                            			<option th:value="Casual">Casual</option> 
+                            			<option th:value="Contracted">Contracted</option> 
+                       			  </select>                       				        		
+                		   		</div> 				                   		                   
+			               </div>   
+			               <div class = "row">		                               		                 		     
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Designation</label>
+	                   				 <select class="form-control" th:field="${employee.designation.id}" >
+	                            				<option th:each="designation : ${designations}"  th:text="${designation.name}" th:value="${designation.id}" ></option> 
+	                       			 </select>                      				        		
+	                		   </div>      
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Shift</label>
+	                   				 <select class="form-control" th:field="${employee.shift}" >
+	                       			        <option th:value="1">Morning- 04:00 AM - 10:00 AM</option> 
+	                            			<option th:value="2">Day- 10:00 AM - 04:00 PM</option> 
+	                            			<option th:value="3">Evening- 04:00 PM - 10:00 PM</option> 
+	                            			<option th:value="4">Night- 10:00 PM- 04:00 AM</option>                            		
+	                       			  </select>                     				        		
+	                		   </div> 	         		   	                		
+                		   </div>    
+                		   <div class = "row">	             		   	    
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Mobile number</label>
+	                   				 <input  value="" type="text" class="form-control" placeholder="Mobile number"  th:field="${employee.mobileNumber}"  />                        				        		
+	                		   </div>     
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Bonus grade</label>
+	                   				 <select class="form-control" th:field="${employee.bonusGrade}" >
+	                            			<option th:value="25">25%</option> 
+	                            			<option th:value="50">50%</option> 
+	                            			<option th:value="75">75%</option> 
+	                            			<option th:value="100">100%</option> 
+	                       			  </select>                       				        		
+	                		   </div>
+	                	   </div>      		   
+                		   <div class="form-group">
+                   				 <label>Address</label>
+                   				 <input  value="" type="text" class="form-control" placeholder="Address"  th:field="${employee.address}" />                        				        		
+                		   </div>                		                  		                  		              		   
+                		   <div class="form-group"> 
+							    <label>Image</label>
+				  			    <input type="file" name="file" class="form-control-file" >
+						   </div>  
+						   <script>
+							$('#datepicker_birthday_edit').datepicker({
+					    		uiLibrary: 'bootstrap',
+					    		format: 'mm-dd-yyyy'
+							}); 
+							</script>
+							
+							
+							
+							

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Check-outs</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="main/rooms/roomShow"></th:block>
+ 		<th:block th:include="main/reservations/checkIn_checkOut/checkinEdit"></th:block>
+	    <th:block th:include="main/reservations/checkIn_checkOut/checkoutEdit"></th:block> 
+	    <th:block th:include="main/reservations/reservationModal/reservationCreate"></th:block>  
+	    <th:block th:include="main/reservations/reservationModal/reservationEdit"></th:block>  
+        <th:block th:include="main/reservations/reservationModal/reservationShow"></th:block>  
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Check-out Reservation List
+				</li>				
+		</ul>
+		
+		<div class="page-heading">
+				    <h1 class="page-title">Check-out Reservations List</h1>			    
+				    <a type="button" class="btn btn-primary btnCreateReservation" th:href="@{/reservation/create}">
+						Add reservation
+					</a>					
+		</div>	
+
+		<div class="page-content fade-in-up">
+
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+				 	<h5>List</h5>
+				</div>
+
+				<div class="ibox-body">
+				
+								<table id="reservationTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Creation date</th>
+											<th>From date</th>
+											<th>To date</th>
+											<th>Status</th>
+											<th>Check-Out date</th>
+											<th>Guest</th>	
+											<th>Room</th>	
+											<th>Check-In/Out</th>								
+											<th>Action</th>									
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="reservation : ${reservationsCheckouts}">
+											<td th:text="${reservation.id}"></td>
+											<td th:text="${reservation.creationDate}"></td>	
+											<td th:text="${reservation.fromDate}"></td>	
+											<td th:text="${reservation.toDate}"></td>	
+											<td>
+												<span th:if="${reservation.status eq 'Success'}" class="badge badge-pill badge-success">Success</span>
+												<span th:if="${reservation.status eq 'Pending'}" class="badge badge-pill badge-secondary">Pending</span>			
+												<span th:if="${reservation.status eq 'Finished'}" class="badge badge-pill badge-danger">Finished</span>					
+											</td>
+											<td th:text="${reservation.checkoutDate}"></td>													 	
+										    <td>
+											    <a th:href="@{/guest/show/{id}(id=${reservation.guest.id})}">
+											        <span th:text="${reservation.guest.id} "></span>
+											    </a>
+											</td> 
+											
+										    <td>									 	    
+										 	    <a th:href="@{/room/showRoom/{id}(id=${reservation.room.id})}" class = "btnShowRoom">
+										 	         <span th:text="${reservation.room.id}"></span>
+										 	    </a> 
+											</td> 
+                            				<td>										
+												<button th:href="@{/checkin/edit/} + ${reservation.id}"
+														th:if="${reservation.status eq 'Pending'}" type="button" class="btn btn-outline-primary btnCheckin">
+														<i class="fa fa-sign-in" aria-hidden="true"></i>
+											 			Check-In</button>
+											 	<button th:href="@{/checkout/edit/} + ${reservation.id}"
+														th:if="${reservation.status eq 'Success'}" type="button" class="btn btn-outline-primary btnCheckout">
+														<i class="fa fa-sign-out" aria-hidden="true"></i>
+											 			Check-Out</button> 
+											</td>		
+											<td>
+											  <a th:href="@{/reservation/edit/} + ${reservation.id}"
+											  	    class="btn btn-default btn-xs m-r-5 btnEditReservation"
+													data-toggle="tooltip" data-original-title="Edit"> <i
+													class="fa fa-pencil font-20"></i></a>
+											  <a th:href="@{/reservation/show/} + ${reservation.id}"
+													class="btn btn-default btn-xs m-r-5 btnShowReservation"
+													data-toggle="tooltip" data-original-title="Show"> <i
+													class="fa fa-eye font-20"></i></a> 
+											  <a th:href="@{/reservation/delete/} + ${reservation.id}"
+												    class="btn btn-default btn-xs" data-toggle="tooltip"
+												    data-original-title="Delete"> <i
+													class="fa fa-trash font-20"></i></a> 
+											</td>										
+										</tr>
+									</tbody>
+								</table>						
+
+	
+			   	  </div>
+			   	  <!-- ibox-body -->			   	  
+			  </div>			
+			  <!-- ibox -->	
+	    </div>
+	    <!-- page-content -->
+	    
+	    <!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+	    
+	    <!-- PAGE LEVEL PLUGIN-->
+        <script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>	
+	    
+	    <script>
+	    $('#reservationTable').DataTable(); 
+	    <!-- Reservation create --> 
+        $('.btnCreateReservation').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault(); 
+            var href_6 = $(this).attr('href');
+            
+            $.get(href_6, function(data){              	
+            	 $("#modal-body-reservation-create").html(data);  
+            });
+          
+            $('#reservationCreateModal').modal('show'); 
+        });    
+        <!-- Edit Reservation for checkout --> 
+        $('.btnCheckout').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault();
+            var href_11 = $(this).attr('href');
+
+            $.get(href_11, function(reservation){
+            	$('.checkOutEditForm #id').val(reservation.id);
+            });
+
+            $('.checkOutEditForm #checkOutEditModal').modal();
+        });
+   
+        <!-- Reservation Show -->
+        $('.btnShowReservation').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault(); 
+            var href_9 = $(this).attr('href');
+            
+            $.get(href_9, function(data){              	
+            	 $("#modal-body-reservation-show").html(data);  
+            });
+          
+            $('#reservationShowModal').modal('show'); 
+        });
+        <!-- Reservation Edit -->  
+     	$('.btnEditReservation').on('click', function(event){
+     		 //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault();
+            var href_8 = $(this).attr('href');
+     		 
+            $.get(href_8, function(reservation){
+           	$('.reservationEditForm #id').val(reservation.id);
+     	     	$('.reservationEditForm #fromDate').val('');
+     	     	$('.reservationEditForm #tomDate').val('');
+     	     	$('.reservationEditForm #status').val('');
+            });
+     	    	
+     	     $('.reservationEditForm #reservationEditModal').modal();  
+     	 }); 
+     	<!-- SHOW room details --> 
+        $('.btnShowRoom').on('click', function(event){
+             //prevents redirection to blank page with JSON-Task-Object
+             event.preventDefault(); 
+             var href_3 = $(this).attr('href');
+             
+             $.get(href_3, function(data){              	
+            	 $("#modal-body-room").html(data); 
+             });
+           
+             $('#roomModal').modal('show'); 
+        });
+		 $('#checkoutDate').mask('9999-99-99', {
+			   placeholder : 'yyyy-mm-dd'
+		 });
+	    </script>
+	    
+	</div>
+	<!-- content -->
+</body>
+</html>

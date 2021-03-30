@@ -1,0 +1,60 @@
+
+   						  
+   						  
+  						  <div class = "row">  
+                               <div class="col-sm-6 form-group">
+	                   				 <label>Id</label>
+	                   				 <input  value="" type="text" class="form-control" th:field="${expense.id}"  readonly />                        				        		
+	                		   </div>                           
+                           </div> 
+                           <div class="row">  
+                        		  <div class="col-sm-6 form-group">
+	                   					 <label>Category</label>
+	                   					 <select class="form-control" th:field="${expense.category}"  >
+	                       			        <option th:value="Meals">Meals</option> 
+	                       			        <option th:value="Entertainment">Entertainment</option> 
+	                            			<option th:value="Cleaning">Cleaning stuff</option>   
+	                            			<option th:value="Repair">Repairs & Maintenance</option>   
+	                            			<option th:value="Transportation">Transportation</option>  
+	                            			<option th:value="Office">Office equipment</option>   
+	                            			<option th:value="Other">Other</option>                       		
+	                       			  	 </select>                     				        		
+	                		   	  </div> 
+	                		   	  <div class="col-sm-6 form-group">
+	                   					 <label>Currency</label>   
+	                       			  	 <input  value="" type="text" class="form-control" th:field="${expense.currency}"  readonly />                 				        		
+	                		   	  </div>                 		  	                
+		                    </div>
+		                    <div class = "row">  	                	              		 
+		                		  <div class="col-sm-6 form-group">
+	                   					 <label>Amount</label>
+	                   					 <input  value="" type="text" class="form-control" th:field="${expense.amount}"  readonly />                        				        		
+	                		   	   </div>      
+	                		   	    <div class="col-sm-6 form-group">
+		                   				 <label>Status</label>
+		                   				 <select class="form-control" th:field="${expense.status}"  >
+		                   				 	<option th:value="Submitted">Submitted</option> 
+	                       			        <option th:value="Approved">Approved</option> 
+	                            			<option th:value="Declined">Declined</option>   
+	                            			<option th:value="Paid">Paid</option>                     		
+	                       			  	 </select>   		                   				                       				        		
+		                		   </div>              		   	 	              		                 		              		   	     
+                		   </div> 
+                		   <div class="row">                           		                		                   		  		                	      
+		                		   <div class="col-sm-6 form-group">							
+								  	 	 <label>Department</label> 
+	                       			  	 <input  value="" type="text" class="form-control" th:value="${expense.department.name}" readonly /> 	                       			  	 			 
+	                       	  	  </div>
+	                       	  	  <div class="col-sm-6 form-group">
+									<label>Employee</label> 
+									<input  value="" type="text" class="form-control"
+													 th:value="${expense.employee.name + ' ' + expense.employee.surname}"  readonly /> 
+								</div>
+		                    </div>         		     		                    		
+	                       	<div class="form-group">
+		                   				 <label>Description</label>
+		                   				 <input  value="" type="text" class="form-control" th:field="${expense.description}"  />                        				        		
+		                	</div> 
+		         
+							
+							 

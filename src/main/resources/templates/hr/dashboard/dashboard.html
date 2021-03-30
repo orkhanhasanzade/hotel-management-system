@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>HR Dashboard</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+			
+			<link th:href="@{assets/fullcalendar-4.4.2/packages/core/main.css}" rel='stylesheet' />
+			<link th:href="@{assets/fullcalendar-4.4.2/packages/daygrid/main.css}" rel='stylesheet' />	
+		
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					HR Dashboard
+				</li>				
+		</ul>	
+					
+		<div class="page-heading">
+			<h1 class="page-title"><i class="sidebar-item-icon fa fa-th-large"></i> Dashboard</h1> 		
+		</div>
+			
+
+		<div class="page-content fade-in-up">
+		
+			  <div class="row">
+			  		
+			  		<!-- Total Departments -->
+			  		<div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#008B8B">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${departmentCount}"></h2>
+                                <div class="m-b-5">Total Departments</div><i class="fa fa-th widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Employees -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#228B22">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${employeeCount}"></h2>
+                                <div class="m-b-5">Total Employees</div><i class="fa fa-group widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Present today -->
+                      <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-success color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${employeesAtWorkCount}"></h2>  
+                                <div class="m-b-5">Present Today</div><i class="fa fa-user widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-dark color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${empInVacCount}"></h2>
+                                <div class="m-b-5">Employees in vacation</div><i class="fa fa-calendar widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-warning color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${leavesCount}"></h2>
+                                <div class="m-b-5">Leaves today</div><i class="fa fa-clock-o widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>      
+                    
+                     <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-danger color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${expenses + ' ' + 'Man'}"></h2>
+                                <div class="m-b-5">Total expenses</div><i class="fa fa-money widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-primary color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${salaries + ' ' + 'Man'}"></h2>
+                                <div class="m-b-5">Total salaries paid</div><i class="fa fa-credit-card widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>                                                             
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-secondary color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${overtimeCount}"></h2>
+                                <div class="m-b-5">Totay's overtimes</div><i class="fa fa-clock-o widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>                                                        
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg-info color-white widget-stat">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${projectCount}"></h2>
+                                <div class="m-b-5">Projects</div><i class="fa fa-bookmark widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="ibox bg color-white widget-stat" style="background-color:#ffb8c6">
+                            <div class="ibox-body">
+                                <h2 class="m-b-5 font-strong" th:text="${birthdayCount}"></h2>
+                                <div class="m-b-5">Birthdays today</div><i class="fa fa-birthday-cake widget-stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>   
+                   
+                    <!-- Today leaves -->
+			  
+          
+  			  </div>
+  			  <div class="row">
+
+					<div class="col-lg-4">
+
+						  <div class="ibox">
+                            <div class="ibox-head" style = "background-color:#3498db; color:white;">
+                                <div class="ibox-title">
+                                	Recent leave applications
+                                </div>
+                            </div>
+                            <div class="ibox-body">
+                                <ul class="media-list media-list-divider m-0" th:each="leave : ${leaves}">
+                                                               
+                                    <li class="media" >
+                                        <a class="media-img" href="javascript:;">
+                                            <img class="img-circle" th:src="${'/images/employees/' + leave.employee.imagePath}" width="40">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="media-heading" th:text="${leave.employee.name + ' ' + leave.employee.surname}">
+                                            </div>
+                                            <div class="font-13" th:text="${leave.description}"></div>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4"> 
+                        <div class="ibox">
+                            <div class="ibox-head" style = "background-color:#3498db; color:white;">
+                                <div class="ibox-title">
+                                	Employees in vacation
+                                </div>
+                            </div>
+                            <div class="ibox-body">                              
+                               <ul class="media-list media-list-divider m-0" th:each="employee : ${employeesVacation}" >                          
+                                    <li class="media" >
+                                        <a class="media-img" href="javascript:;">
+                                            <img class="img-circle" th:src="${'/images/employees/' + employee.imagePath}" width="40">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="media-heading" th:text="${employee.name + ' ' + employee.surname}">
+                                            </div>
+                                            <div class="font-13" th:text="${employee.department.name + ' ' + '-' + ' ' + employee.designation.name}">
+                                            </div>
+                                            <div class="font-13" th:text="${'Return date:' + ' ' + returnDates[employee.id]}"></div>                                                                                
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                         </div>
+                         </div>
+                         <div class="col-lg-4">
+                         <div class="ibox">
+                            <div class="ibox-head" style = "background-color:#3498db; color:white;">
+                                <div class="ibox-title">
+                                	Today's birthdays
+                                </div>
+                            </div>
+                            <div class="ibox-body">
+                                <ul class="media-list media-list-divider m-0" th:each="employee : ${employeesBirthday}">
+                                                               
+                                    <li class="media" >
+                                        <a class="media-img" href="javascript:;">
+                                            <img class="img-circle"  th:if="${employee.imagePath ne null }"
+                                              th:src="${'/images/employees/' + employee.imagePath}" width="40">                   								 	
+								 			<img class="img-circle" th:if="${employee.imagePath eq null }"   
+								 				th:src="@{'/images/users/avatar.jpg'}" width="40">	
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="media-heading" th:text="${employee.name + ' ' + employee.surname}">
+                                            </div>
+                                            <div class="font-13" th:text="${employee.department.name + ' ' +' - ' + ' ' + employee.designation.name}"></div>                                        
+                                            <div class="font-13" th:text="${'Birthday:' + ' ' + employee.birthdate}"></div>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                         </div>                                                                     
+						  
+				  	</div>			  	
+				  	
+			  </div>
+			  
+		</div> <!-- page-content -->
+			
+			<!-- scripts -->
+			<div data-th-replace="fragments/scripts :: scripts"></div> 
+		
+		    <script th:src="@{assets/fullcalendar-4.4.2/packages/core/main.js}"></script>
+			<script th:src="@{assets/fullcalendar-4.4.2/packages/daygrid/main.js}"></script>
+			
+	</div><!-- content -->
+
+</body>
+</html>

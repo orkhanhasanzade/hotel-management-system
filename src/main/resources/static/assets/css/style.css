@@ -1,0 +1,52 @@
+
+
+/* Style for Project Dashboard page */
+#calendar .fc-day
+{
+	transition: all .5s;
+}
+#calendar .fc-day:hover
+{
+	background-color: #ccc;
+}
+.display-none
+{
+	display:none;
+}
+
+/* Style for Accounts page */
+.inline-block 
+{
+  	display: inline-block;
+}
+td, th 
+{
+	padding: 2px;
+}
+.table-head
+{
+	background-color:#F0F0F0;
+}
+
+/* Style for Transactions page */
+td, th 
+{
+	padding: 2px;
+}
+
+/* Margin from left and right */
+.ibox-margin
+{
+	margin-left:10em; margin-right:10em;
+}
+
+.color-red
+{
+	color:red;
+}
+
+
+  
+    
+    
+    

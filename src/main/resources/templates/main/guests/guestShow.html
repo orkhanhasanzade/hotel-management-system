@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Guest</title>
+</head>
+
+<body>
+	<div data-layout-fragment="content">
+	
+		<th:block th:include="main/rooms/roomShow"></th:block>
+	
+		<div class="page-heading">
+			<h1 class="page-title">Guest Profile</h1>
+		</div>
+
+		<div class="page-content fade-in-up">
+
+			<div class="row"><!-- row -->
+
+				<div class="col-lg-3 col-md-4">
+
+					<div class="ibox" th:object="${guest}">
+						<div class="ibox-body text-center">
+						
+							<div class="m-t-20">					
+								 	<img class="img-circle"  th:src="@{'/images/guests/' + ${guest.imagePath} }">									
+							</div>
+							<h5 class="font-strong m-b-10 m-t-10" th:field="*{name}"></h5>														
+							<div>
+								<h5 class="font-strong m-b-10 m-t-10">Frank Cruz</h5>
+							</div>
+							
+						</div><!-- ibox-body -->
+					</div><!-- ibox -->
+
+					<div class="ibox">
+
+						<div class="ibox-body">
+
+					 		<div class="row text-center m-b-20">
+								<div class="col-4">
+									<div class="font-24 profile-stat-count" th:text="${amount}+'$'"></div>
+									<div class="text-muted">Amount</div>
+								</div>
+								<div class="col-4">
+									<div class="font-24 profile-stat-count" th:text="${payedAmount}+'$'"></div>
+									<div class="text-muted">Payed amount</div>
+								</div>
+								<div class="col-4">
+									<div class="font-24 profile-stat-count" th:text="${debtAmount}+'$'"></div>
+									<div class="text-muted">Debt</div>
+								</div>
+							</div> 			
+								
+						</div><!-- ibox-body -->
+					</div><!-- ibox -->
+
+				</div><!-- col-lg-3 col-md-4 -->
+
+
+				<div class="col-lg-9 col-md-8">
+					<div class="ibox" th:object="${guest}">
+						<div class="ibox-body">						                      
+                                     <h4><i class="ti-settings"></i> General info</h4>		 <hr>				
+			                           <div class="tab-pane fade show active" id="tab-1">	
+			                           			<div class="row">
+			                           				<div class="col-sm-2 form-group">	
+			                           					<input class="form-control" type="text" th:field="*{title}" readonly >
+			                           				</div>
+			                           			</div>																			  		
+												<div class="row">																	
+														<div class="col-sm-4 form-group">
+															<label>Name</label> <input class="form-control" type="text" th:field="*{name}" readonly >
+														</div>
+														<div class="col-sm-4 form-group">
+															<label>Surname</label> <input class="form-control" type="text" th:field="*{surname}" readonly >
+														</div>						
+												</div>
+												<div class="row">
+														<div class="col-sm-4 form-group">
+															<label>Middle Name</label> <input class="form-control"
+																type="text"  th:field="*{middleName}" readonly >
+														</div>
+														<div class="col-sm-4 form-group">
+															<label>Nationality</label> <input class="form-control"
+																type="text"  th:field="*{nationality}" readonly >
+														</div>																				
+												</div>		
+												<div class = "row">
+												    <label></label>  
+												</div>	
+												<div class = "row">
+												    <label></label>  
+												</div>
+												<div class = "row">
+												    <label></label>  
+												</div>																									
+												<div class = "row">
+													<div class=" col-sm-4 form-group">
+														<h4>Contact details</h4>
+													</div>
+											    </div>
+											    <div class = "row">
+													<div class="col-sm-4 form-group">
+														<label>Country</label> 
+														<input class="form-control" type="text" th:field="*{country}" readonly >
+													</div>	
+													<div class="col-sm-4 form-group">
+														<label>City</label> 
+														<input class="form-control" type="text" th:field="*{city}" readonly >
+													</div>																								
+												</div>
+												<div class = "row">
+													<div class="col-sm-4 form-group">
+														<label>Email</label> 
+														<input class="form-control" type="text" th:field="*{email}" readonly >
+													</div>	
+													<div class="col-sm-4 form-group">
+														<label>Address</label> 
+														<input class="form-control" type="text" th:field="*{address}" readonly >
+													</div>																								
+												</div>	
+										
+										
+							      <br>
+                                        <h4><i class="ti-bar-chart"></i> Reservations</h4>
+                                  		
+											<hr>	
+								        <table class="table table-striped table-hover">
+		                                            <thead>
+		                                                <tr>
+		                                                    <th>Id</th>
+															<th>Creation date</th>
+															<th>From date</th>
+															<th>To date</th>
+															<th>Status</th>
+															<th>Room</th>	
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody>
+		                                             	<tr th:each="reservation : ${reservations}">
+																<td th:text="${reservation.id}"></td>
+																<td th:text="${reservation.creationDate}"></td>	
+																<td th:text="${reservation.fromDate}"></td>	
+																<td th:text="${reservation.toDate}"></td>
+																<td>
+																	<span th:if="${reservation.status eq 'Success'}" class="badge badge-pill badge-success">Success</span>
+																	<span th:if="${reservation.status eq 'Pending'}" class="badge badge-pill badge-secondary">Pending</span>			
+																	<span th:if="${reservation.status eq 'Finished'}" class="badge badge-pill badge-danger">Finished</span>					
+																</td>										 																
+															    <td>									 	    
+															 	    <a th:href="@{/room/showRoom/{id}(id=${reservation.room.id})}" class = "btnShowRoom">
+															 	         <span th:text="${reservation.room.id}"></span>
+															 	    </a> 
+																</td>                            																						
+														</tr>
+		                                            </tbody>
+		                                        </table> 																										    
+		                          
+			                    </div>  
+			                    
+						</div><!-- ibox-body -->
+					</div><!-- ibox -->
+				</div><!-- col-lg-9 col-md-8 -->
+			</div><!-- row -->
+
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 	
+
+		<script>
+    	<!-- SHOW room details --> 
+        $('.btnShowRoom').on('click', function(event){
+             //prevents redirection to blank page with JSON-Task-Object
+             event.preventDefault(); 
+             var href_3 = $(this).attr('href');
+             
+             $.get(href_3, function(data){              	
+            	 $("#modal-body-room").html(data); 
+             });
+           
+             $('#roomModal').modal('show'); 
+        });
+        </script>
+
+		</div>
+		<!-- page-content fade-in-up -->
+	</div>
+	<!-- content -->
+
+</body>
+</html>

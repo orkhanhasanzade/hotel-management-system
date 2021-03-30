@@ -1,0 +1,86 @@
+
+
+<div class="col-xl-8 col-lg-7">
+	<div class="myForm">
+		<form th:action="@{/updateRoom}" th:method="POST">
+			<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+
+					<div class="modal-content">
+
+						 <!-- HEADER -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						 <!-- BODY -->
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label>Id</label> <input value="" type="text"
+									class="form-control" id="id" name="id" readonly />
+							</div>
+
+							<div class="form-group">
+								<label>Floor No</label>								
+								 <select class="form-control" id = "floor" name="floor" >
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+								
+							</div> 
+
+							<div class="form-group">
+								<label>Room No</label> 
+								<input type="text" class="form-control" name="roomNumber" id="roomNumber" >
+							</div>
+							
+							<div class="form-group">
+								<label>Room Type</label> 
+								<select class="form-control" name="type" id="type">
+									<option>Single</option>
+									<option>Double</option>
+									<option>Triple</option>
+									<option>Family</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label>Rent price</label> 
+								<select class="form-control" name="rent" id="rent">
+									<option>30</option>
+									<option>60</option>
+									<option>150</option>
+									<option>180</option>									
+								</select>
+							</div>
+							
+							<label>Booking Status</label>  
+                	 	    <div class="form-group">   
+                		 	  <input type="checkbox" checked data-toggle="toggle" id="status" name="status"
+                			  		 data-onstyle="success" data-offstyle="danger" data-off="Booked" data-on="Avaliable"
+                			  		 data-width="20%" />          			  		                    		   
+                	 	    </div>   
+							
+						</div>
+
+						<!-- FOOTER -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<input type="submit" class="btn btn-primary" value="save" />
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

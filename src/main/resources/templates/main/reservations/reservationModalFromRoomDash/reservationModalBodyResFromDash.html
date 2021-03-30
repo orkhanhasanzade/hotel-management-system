@@ -1,0 +1,132 @@
+
+<th:block th:include="main/rooms/roomShow"></th:block>
+<table id="reservationCreatedTable"
+	class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>From date</th>
+			<th>To date</th>
+			<th>Status</th>
+			<th>Guest</th>
+			<th>Room</th>
+			<th>Check-In date</th>
+			<th>Check-Out date</th>			
+			<th th:if="${reservationCreated.status ne 'Finished' }">Check-In/Out</th>
+			<th th:if="${reservationCreated.status eq 'Finished' }">Payment</th> 
+		</tr>
+	</thead>
+
+	<tbody>
+		<td th:text="${reservationCreated.id}"></td>
+		<td th:text="${reservationCreated.fromDate}"></td>
+		<td th:text="${reservationCreated.toDate}"></td>
+		<td>
+		  <span th:if="${reservationCreated.status eq 'Success'}"
+			class="badge badge-pill badge-success">Success</span> <span
+			th:if="${reservationCreated.status eq 'Pending'}"
+			class="badge badge-pill badge-secondary">Pending</span> <span
+			th:if="${reservationCreated.status eq 'Finished'}"
+			class="badge badge-pill badge-danger">Finished</span></td>
+		<td>
+		     <a th:href="@{/guest/show/{id}(id=${reservationCreated.guest.id})}">
+			 <span th:text="${reservationCreated.guest.id} "></span>
+		</a></td>
+		<td>
+		    <a th:href="@{/room/showRoom/{id}(id=${reservationCreated.room.id})}" class="btnShowRoom"> 
+			   <span th:text="${reservationCreated.room.id}"></span>
+			</a>
+		</td>
+		<td th:text="${reservationCreated.checkinDate}"></td>
+		<td th:text="${reservationCreated.checkoutDate}"></td>
+		<td th:if="${reservationCreated.status ne 'Finished' }">
+			<button th:href="@{/reservation/dashCheckin/} + ${reservationCreated.id}"
+				th:if="${reservationCreated.status eq 'Pending'}" type="button" class="btn btn-outline-primary btnDashAddCheckinView" >
+				<i class="fa fa-sign-in" aria-hidden="true"></i> Check-In
+			</button>
+			<button th:href="@{/reservation/dashCheckout/} + ${reservationCreated.id}"
+				th:if="${reservationCreated.status eq 'Success'}" type="button" class="btn btn-outline-primary btnDashAddCheckoutView">
+				<i class="fa fa-sign-out" aria-hidden="true"></i> Check-Out
+			</button>
+		</td>
+		<td th:if="${reservationCreated.status eq 'Finished' }">		
+			<a th:href="@{/reservation/payment/} + ${reservationCreated.id}" type="button" class="btn btn-success btnPayment">
+				Pay
+		    </a>		
+		</td>
+
+
+	</tbody>
+
+</table>
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+<script>
+$(document).ready(function(){
+	
+
+			<!-- Room reservation from dashboard add checkin view to popup --> 
+			$('.btnDashAddCheckinView').on('click', function(event){
+			   //prevents redirection to blank page with JSON-Task-Object
+			   event.preventDefault();
+			   var href = $(this).attr('href');
+
+			   $.get(href, function(data){
+			  	 $("#modal-body-dashboard-popup").html(data); 
+			   });
+			
+			   $('#reservationCheckInForm').modal();
+			});  
+			
+			<!-- Room reservation from dashboard add checkout view to popup --> 
+			$('.btnDashAddCheckoutView').on('click', function(event){
+			   //prevents redirection to blank page with JSON-Task-Object
+			   event.preventDefault();
+			   var href = $(this).attr('href');
+
+			   $.get(href, function(data){
+			  	 $("#modal-body-dashboard-popup").html(data); 
+			   });
+			
+			   $('#reservationCheckInForm').modal();
+			});  
+			
+	    	<!-- SHOW room details --> 
+	        $('.btnShowRoom').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href_3 = $(this).attr('href');
+	             
+	             $.get(href_3, function(data){              	
+	            	 $("#modal-body-dashboard-popup").html(data); 
+	             });
+	           
+	             $('#reservationCheckInForm').modal(); 
+	        });
+	        
+	    	<!-- SHOW room details --> 
+	        $('.btnPayment').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href_3 = $(this).attr('href');
+	             
+	             $.get(href_3, function(data){              	
+	            	 $("#modal-body-dashboard-popup").html(data); 
+	             });
+	           
+	             $('#reservationCheckInForm').modal(); 
+	        });
+	        
+});
+
+
+</script>
+
+
+
+

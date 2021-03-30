@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Attendance</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+
+		<th:block th:include="hr/attendance/attendanceCreate"></th:block>
+		<th:block th:include="hr/attendance/attendanceEdit"></th:block>
+
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Attendance</li>
+		</ul>
+
+		<!-- START PAGE CONTENT-->
+		<div class="page-heading">
+			<h1 class="page-title">Attendance</h1>
+			<button type="button" class="btn btn-primary btnNewAttendance"
+				th:href="@{/attendance/create}">Add New</button>
+		</div>
+
+		<div class="page-content fade-in-up">
+
+		   <div class="ibox">
+				<div class="ibox-body">
+					<form th:action="@{/attendance-report}" id="attendanceReportForm">
+						<div class="row">
+							<div class="col-sm-2 form-group">
+								<h6>Employee</h6>
+								<select class="form-control" id="employeeId" name="employeeId">
+									<option th:value="All">All employees</option>
+									<option th:each="employee : ${employees}"
+										th:text="${employee.name + ' ' + employee.surname}"
+										th:value="${employee.id}"></option>
+								</select>
+							</div>
+							<div class="col-sm-2 form-group">
+								<h6>From date</h6>
+								<input class="form-control" type="text" placeholder="From date"
+									name="from" id="attendance_fromDate">
+							</div>
+							<div class="col-sm-2 form-group">
+								<h6>To date</h6>
+								<input class="form-control" type="text" placeholder="To date"
+									name="to" id="attendance_toDate">
+							</div>
+							<div class="col-sm-2">
+								<br>
+								<button type="submit" class="btn btn-success">Search</button>
+							</div>
+						</div>
+					</form>
+			 </div><!-- ibox-body -->		
+		  </div><!-- ibox -->
+		  
+		  <div id="reports">
+			<div class="ibox">
+				<div class="ibox-head" style="background-color: #3498db; color: white;">
+					<h5>List</h5>
+					<div id="test">				
+					
+					</div>
+				</div>
+				<div class="ibox-body">
+					<table id="attendanceTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Employee</th>
+								<th>Date</th>
+								<th>In time</th>
+								<th>Out time</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="attendance : ${attendances}">
+								<td th:text="${attendance.id}"></td>
+								<td th:text="${attendance.employee.name + ' ' + attendance.employee.surname}"></td>
+								<td th:text="${attendance.date}"></td>
+								<td th:text="${attendance.inTime}"></td>
+								<td th:text="${attendance.outTime}"></td>
+								<td><a th:href="@{/attendance/edit/} + ${attendance.id}"
+									class="btn btn-default btn-xs m-r-5 btnEditAttendance"
+									data-toggle="tooltip" data-original-title="Edit"> <i
+										class="fa fa-pencil font-20"></i></a> <a
+									th:href="@{/attendance/delete/} + ${attendance.id}"
+									class="btn btn-default btn-xs" data-toggle="tooltip"
+									data-original-title="Delete"> <i
+										class="fa fa-trash font-20"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div><!-- ibox-body -->
+			</div><!-- ibox --> 
+		</div>
+	</div>
+	<!-- page-content -->
+	
+	<!-- scripts -->
+	<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+	<!-- PAGE LEVEL PLUGIN-->
+	<script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>
+
+	<script>		
+	$(document).ready(function()
+	{		
+ 		var table = $('#attendanceTable').DataTable( {
+			dom: 'Bfrtip',
+	        buttons: [
+	          	  { 
+	        		extend: 'excel', 
+	        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+	        	  }
+	        ]
+	    });
+		table.buttons().container().appendTo($('#test'));
+	});	
+			 <!-- Create New Attendance Modal --> 
+	         $('.btnNewAttendance').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href = $(this).attr('href');
+	             
+	             $.get(href, function(data){              	
+	             	 $("#modal-body-attendance-create").html(data);
+	             });
+	           
+	             $('#newAttendanceModal').modal('show'); 
+	         });
+			
+	        <!-- Edit Attendance modal-->
+	 		$('.btnEditAttendance').on('click', function(event){
+			    //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');
+			
+			    $.get(href, function(data){
+			    	$("#modal-body-attendance-edit").html(data);  
+			    });
+			
+			    $('#editAttendanceModal').modal('show'); 
+			});		 	
+	 		
+	 		<!-- Submit report form -->
+	 		$("#attendanceReportForm").submit( function(event) 
+			{ 
+				event.preventDefault(); //prevent default action			
+	 			var attendance_fromDate = $('#attendance_fromDate').val();				
+			    var attendance_toDate = $('#attendance_toDate').val();			
+																
+				$(".error").remove();				
+				if (attendance_fromDate.length < 1) 
+				{
+					$('#attendance_fromDate').after('<span class="error">This field is required</span>');
+				}
+			    if (attendance_toDate.length < 1) 
+				{
+					$('#attendance_toDate').after('<span class="error">This field is required</span>');
+			    }	
+				if (attendance_fromDate.length > 0 && attendance_toDate.length > 0) 
+			    {
+					//get form action url  
+					let post_url = document.getElementById('attendanceReportForm').action													
+											
+					//Encode form elements for submission
+					let form_data = $("#attendanceReportForm :input").serializeArray();
+					$.get(post_url, form_data, function(response) 
+					{
+						  $("#reports").empty();			
+						  $("#reports").append(response);						
+					});								
+				 }							
+			});		
+	 		  $('#attendance_fromDate').datepicker({
+	 			 	format : 'dd/mm/yyyy', 
+	 		  }); 						  
+	 		  $('#attendance_fromDate').mask('99/99/9999', {
+	 				placeholder : 'dd/mm/yyyy'
+	 		  });
+	 		  $('#attendance_toDate').datepicker({
+	 			 	format : 'dd/mm/yyyy', 
+	 		  }); 						  
+	 		  $('#attendance_toDate').mask('99/99/9999', {
+	 				placeholder : 'dd/mm/yyyy'
+	 		  });
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>

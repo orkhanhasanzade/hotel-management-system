@@ -1,0 +1,82 @@
+
+ <table style="margin-left:5em;">		
+		<tr>
+			<th><label for="amount">Amount:</label></th>
+			<td><input value="" type="text" id="amount" name="amount" /></td>
+		</tr>
+		
+		<tr>
+			<th>Category:</th>
+			<td>
+				<input value="transfer" type="radio" id="category1" name="category" checked />
+				<label for="category1">Transfer To</label></br>
+				
+				<input value="deposit" type="radio" id="category2" name="category" />
+				<label for="category3">Deposit</label></br>
+				
+				<input value="withdraw" type="radio" id="category3" name="category" />
+				<label for="category4">Withdraw</label>	
+			</td>
+		</tr>
+		
+		<tr>
+			<th><label for="description">Description:</label></th>
+			<td>
+				<textarea rows="3"  value="" class="form-control" placeholder="Description"  id="description" name="description"></textarea> 
+			</td>
+		</tr>
+		<tr>
+			<th><label for="from">From:</label></th>
+			<td>
+				<select class="form-control" id="from" name="from" >
+					  <option th:value="${''}">Select Account</option> 
+		              <option th:each="account : ${accounts}"  th:text="${account.number}" th:value="${account.id}" ></option> 
+		     	</select>
+			</td>
+		</tr>
+			
+		<tr>
+			<th><label for="to">To:</label></th>
+			<td>
+				<select class="form-control" id="to" name="to" >
+					 <option th:value="${''}">Select Account</option> 
+		             <option th:each="account : ${accounts}"  th:text="${account.number}" th:value="${account.id}" ></option> 
+		     	</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<th><label for="account">Account:</label></th>
+			<td>
+				<select class="form-control" id="account" name="account" >
+					 <option th:value="${''}">Select Account</option> 
+		             <option th:each="account : ${accounts}"  th:text="${account.number}" th:value="${account.id}" ></option> 
+		     	</select>
+			</td>
+		</tr>
+</table>	
+<script>
+$(document).ready(function()
+{
+	$("#account").hide();
+	$("input[type='radio']").change(function()
+	{
+		if($(this).val()=="deposit" || $(this).val()=="withdraw")
+		{
+			$("#from").hide(); 
+			$("#to").hide();
+			$("#account").show();
+		}
+		else
+		{
+			$("#from").show();
+			$("#to").show();
+			$("#account").hide();
+		}
+	});
+});
+</script>
+
+
+
+

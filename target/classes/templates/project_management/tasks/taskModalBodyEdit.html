@@ -1,0 +1,94 @@
+
+
+<div class = "row">
+	          <div class="col-sm-2 form-group">
+		            <label>Id</label>
+		            <input  value="" type="text" class="form-control" th:field="${task.id}" readonly />                        				        		
+		       </div>
+</div> 
+<div class="row">
+	<div class="col-sm-6 form-group">
+		<label>Name</label> <input value="" type="text" class="form-control" th:field="${task.name}" />			
+	</div>
+	<div class="col-sm-6 form-group">
+		<label>Status</label> 
+		<select class="form-control" th:field="${task.status}" >
+			<option th:value="New">New</option>
+			<option th:value="Progress">In Progress</option>
+			<option th:value="Completed">Completed</option>
+			<option th:value="Hold">On Hold</option>
+			<option th:value="Cancelled">Cancelled</option>
+		</select>
+	</div> 
+</div> 
+<div class="row">
+		<div class="col-sm-6 form-group">	                		    
+	              <label>Start date</label>                   				 
+	              <div class="input-group date" >
+                     <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                         <input class="form-control" type="text" placeholder="From" th:field="${task.startDate}" id="task_startDate">
+                   </div>   				                     				        		
+	    </div> 
+	    <div class="col-sm-6 form-group">	                		    
+	               <label>End date</label>                   				 
+	                <div class="input-group date">
+                         <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                           <input class="form-control" type="text" placeholder="To" th:field="${task.endDate}" id="task_endDate">
+                     </div>   				                     				        		
+	    </div> 	
+</div>
+<div class="form-group">
+	<label>Description</label> <input value="" type="text" class="form-control" th:field="${task.description}" />		
+</div>
+<div class="row">
+    <div class="col-sm-6 form-group">
+		<label>Project</label> 
+		<select data-placeholder="Choose project" class="chosen-select" style="" tabindex="4" th:field="${task.project.id}" id="project">
+			<option value=""></option>
+			<option th:each="project : ${projects}" th:text="${project.name}" th:value="${project.id}"></option> 
+		</select> 
+	</div>  
+	<div class="col-sm-6 form-group" id = "employeesOfProject">
+		<label>Employee</label> 		
+			<select data-placeholder="Choose employee" class="chosen-select" style="" tabindex="4" th:field="${task.employee.id}"> 
+				<div id = "employeesOfProject" style="display:none;">
+						<option th:each="employee : ${employees}" 
+								th:text="${employee.name + ' ' + employee.surname}" 
+								th:value="${employee.id}" >
+						</option>		
+				</div>				
+			</select>
+	</div>  
+	
+</div>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+	$('select').chosen({
+			width : '200px'
+	});
+	
+	$("#project").change( function()
+	{   
+		var href = '/projectEmployeesEdit/' + $("#project").val();	
+		$.get(href, function(data)
+		{			
+			$("#employeesOfProject").empty( data );
+			$("#employeesOfProject").append( data );
+		});
+	});
+ 	$('#task_startDate').datepicker({
+		  format : 'yyyy/mm/dd',
+	});
+	$('#task_endDate').datepicker({
+		  format : 'yyyy/mm/dd',
+	});
+	$('#task_startDate').mask('9999-99-99', {
+		   placeholder : 'yyyy-mm-dd'
+	});
+	$('#task_endDate').mask('9999-99-99', {
+		   placeholder : 'yyyy-mm-dd'
+	}); 
+});		
+</script>  
+ 

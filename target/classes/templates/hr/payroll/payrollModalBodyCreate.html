@@ -1,0 +1,56 @@
+
+                       	    <div class="row">                            
+		                		   <div class="col-sm-6 form-group">
+		                   				 <label>Year</label>
+		                   				 <input  value="" type="text" class="form-control" id="year" name="year" />                        				        		
+		                		   </div> 
+		                		   <div class="col-sm-6 form-group">
+										<label>Month</label> <select class="form-control" id="month" name="month">										
+											<option th:value="1">January</option>
+											<option th:value="2">February</option>
+											<option th:value="3">March</option>
+											<option th:value="4">April</option>
+											<option th:value="5">May</option>
+											<option th:value="6">June</option>
+											<option th:value="7">July</option>
+											<option th:value="8">August</option>
+											<option th:value="9">September</option>
+											<option th:value="10">October</option>
+											<option th:value="11">November</option>
+											<option th:value="12">December</option>
+										</select>
+									</div> 
+	           		   		   </div>
+	           		   		   <div class="row"> 
+	           		   		   	   <div class="col-sm-6 form-group">
+		                   				 <label>Gross Salary</label>
+		                   				 <input  value="" type="text" class="form-control" id="grossSalary" name="grossSalary" />                        				        		
+		                		   </div> 
+		                		   <div class="col-sm-6 form-group">
+		                   				 <label>Deductions</label>
+		                   				 <input  value="" type="text" class="form-control" id="deductions" name="deductions" />                        				        		
+		                		   </div> 	           		   		   	           		   		   
+	           		   		   </div>
+	           		   		   <div class="row"> 
+	           		   		   	   <div class="col-sm-6 form-group">
+		                   				 <label>Net Salary</label>
+		                   				 <input  value="" type="text" class="form-control" id="netSalary" name="netSalary" />                        				        		
+		                		   </div> 
+		                		   <div class="col-sm-6 form-group">
+		                   				 <label>Employee</label>
+		                   				 <select class="form-control" id="employee" name="employee" >
+		                            				<option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" th:value="${employee.id}" ></option> 
+		                       			 </select>                      				        		
+	                		   		</div>	                		
+		                		</div>
+                	 	       	
+                	 	       	<label>Status</label><br>
+                	 	       	      <input type="radio" id="unpaid" name="status" value="Unpaid">
+									  	<label for="unpaid">Unpaid</label>
+									  <input type="radio" id="paid" name="status" value="Paid">
+									 	 <label for="paid">Paid</label>
+
+
+  
+                	 	       	   
+                	 	       	     

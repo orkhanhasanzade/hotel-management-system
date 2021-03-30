@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Transactions</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+	 	<th:block th:include="banking/transactions/transactionCreate"></th:block> 
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Transactions
+				</li>				
+		</ul>
+ 
+		<div class="page-content fade-in-up">
+			<div id="taskTableContent">
+				<div class="ibox">				
+					 <div class="ibox-head" style="color: black;">
+						<h2 class="">
+							<i class="fa fa-exchange" aria-hidden="true"></i> Transactions
+						</h2>
+						<div id="test">	
+							<button type="button" class="btn btn-primary btnNewTransaction" th:href="@{/transaction/create}">
+								Add New Transaction</button>
+						</div>
+					</div> 
+					<br>		
+					<div class="ibox-body">
+					  <div>								
+						<form th:action="@{/transactions-report}" id="transactionReportForm">
+							<div class="row">
+								<div class="col-sm-2 form-group">
+									<h6>Category</h6>
+									<select class="form-control" id="category" name="category">
+										<option th:value="all">All categories</option>
+										<option th:value="transfer">Transfer To</option>
+										<option th:value="deposit">Deposit</option>
+										<option th:value="withdraw">Withdraw</option>
+									</select>
+								</div>
+								<div class="col-sm-2 form-group">
+									<h6>Account</h6>
+									<select class="form-control" id="accountId" name="accountId">
+										<option th:value="all">All accounts</option>
+										<option th:each="account : ${accounts}"
+												th:text="${account.number}"
+												th:value="${account.id}"></option>
+									</select>
+								</div>				
+								<div class="col-sm-2 form-group">
+										<h6>From date</h6>
+										<input class="form-control" type="text" placeholder="From date"
+											   name="fromDate" id="fromDate">
+								</div>
+								<div class="col-sm-2 form-group">
+										<h6>To date</h6>
+										<input class="form-control" type="text" placeholder="To date"
+											   name="toDate" id="toDate">
+								</div>
+								<div class="col-sm-2">
+									<br>
+									<button type="submit" class="btn btn-success">Search</button>
+								</div>
+							</div>
+							
+						</form>
+					   </div> 
+					   <div id="report">
+
+		 				   <table id="transactionTable" class="table table-bordered table-head" cellspacing="0" width="100%">							
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Date</th>
+										<th>Amount</th>
+										<th>Category</th>									
+								   	    <th>From Account</th> 
+										<th>To Account</th>	
+										<th>Account</th>									
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="transaction : ${transactions}">
+										<td th:text="${transaction.id}"></td>
+										<td th:text="${transaction.date}"></td>
+										<td th:text="${'$' + ' ' + transaction.amount}"></td>
+										<td>
+											<span th:if="${transaction.category == 'transfer'}">Transfer To</span> 
+											<span th:if="${transaction.category == 'income'}">Income Payment</span> 
+											<span th:if="${transaction.category == 'deposit'}">Deposit</span> 
+											<span th:if="${transaction.category == 'withdraw'}">Withdraw</span> 
+										</td>	
+										<td>
+											<span th:text="${transaction.from.number}" th:if="${ transaction.from != null }" ></span>
+											<span th:if="${ transaction.from == null }"></span> 
+										</td>	
+										<td>
+											<span th:text="${transaction.to.number}" th:if="${ transaction.to != null }"></span>
+											<span th:if="${ transaction.to == null }"></span> 
+										</td>
+										<td>
+											 <span th:text="${transaction.account.number}" th:if="${ transaction.account != null }"></span> 
+											 <span th:if="${ transaction.account == null }"></span> 
+										</td>	
+										<td th:text="${transaction.description}"></td>	
+									</tr>
+								</tbody>
+							</table> 
+							
+							
+						</div>
+					</div>
+					<!-- ibox-body -->
+				</div>
+				<!-- ibox -->
+			</div>
+		</div>
+		<!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+		
+		<!-- PAGE LEVEL PLUGIN-->
+		<script th:src="@{/assets/vendors/jquery.maskedinput/dist/jquery.maskedinput.min.js}"></script>		
+
+		<script>		
+		$(document).ready(function()
+		{		
+			 <!-- Create New Transaction Modal --> 
+	         $('.btnNewTransaction').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href = $(this).attr('href');
+	             
+	             $.get(href, function(data){              	
+	             	 $("#modal-body-transaction-create").html(data);
+	             });
+	           
+	             $('#newTransactionModal').modal('show'); 
+	         });
+
+			
+			$('#fromDate').datepicker({
+				format : 'yyyy/mm/dd',
+			});
+			$('#toDate').datepicker({
+				format : 'yyyy/mm/dd',
+			});
+			$('#fromDate').mask('9999-99-99', {
+				placeholder : 'yyyy-mm-dd'
+			});
+			$('#toDate').mask('9999-99-99', {
+				placeholder : 'yyyy-mm-dd'
+			});
+			
+			var table = $('#transactionTable').DataTable( {
+				dom: 'Bfrtip',
+			    buttons: [
+			      	  { 
+			    		extend: 'excel', 
+			    		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+			    	  }
+			    ]
+			});
+			table.buttons().container().appendTo($('#test'));
+			
+			$("#transactionReportForm").submit( function(event) 
+			{ 
+				event.preventDefault(); //prevent default action
+				var category = $('#category').val();
+				var accountId = $('#accountId').val();			
+				var fromDate = $('#fromDate').val();	
+				var toDate = $('#toDate').val();	
+																
+				$(".error").remove();				
+				if (fromDate.length < 1) 
+				{
+					$('#fromDate').after('<span class="error">This field is required</span>');
+				}
+			    if (toDate.length < 1) 
+			    {
+					$('#toDate').after('<span class="error">This field is required</span>');
+			    }						
+				if (fromDate.length > 0 && toDate.length) 
+			    {
+						//get form action url  
+						let post_url = document.getElementById('transactionReportForm').action													
+											
+						//Encode form elements for submission
+						let form_data = $("#transactionReportForm :input").serializeArray();
+						$.get(post_url, form_data, function(response) 
+						{
+								$("#report").empty();			
+								$("#report").append(response);						
+						});								
+			    }									
+			 });	 		
+
+		});		
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>
+

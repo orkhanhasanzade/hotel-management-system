@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">  
+
+<head>
+<title>Avaliability Calendar</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+		<!-- PAGE LEVEL STYLES -->	  
+		<link th:href="@{assets/fullcalendar-4.4.2/packages/core/main.css}" rel='stylesheet' />
+		<link th:href="@{assets/fullcalendar-4.4.2/packages/daygrid/main.css}" rel='stylesheet' />	
+	    <link th:href="@{assets/css/jquery-ui.css}" rel='stylesheet' />	       
+	    
+	   <!-- scripts -->
+ 		<div data-th-replace="fragments/scripts :: scripts"></div> 
+			  	
+		<!--  PAGE LEVEL SCRIPTS	  -->
+ 		<script th:src="@{assets/vendors/jquery-ui/jquery-ui.min.js}"></script> 
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/core/main.js}"></script>
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/daygrid/main.js}"></script>  
+		<script th:src="@{assets/fullcalendar-4.4.2/packages/interaction/main.js}"></script> 
+		<script th:src="@{assets/js/moment.js}"></script> 
+		<script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', function() 
+		{
+				var calendarEl = document.getElementById('calendar');		
+				var calendar = new FullCalendar.Calendar(calendarEl, 
+				{
+					plugins: [ 'dayGrid', 'interaction' ],					  								
+					
+				    events: '/projects-dashboard-reservations',
+				    
+			        eventClick:  function(info) 
+			        {
+			            $('#modalTitle').html(info.event.title);
+			            $('#calendarStartDate').html("Start:" +  moment(info.event.start).format('MMMM Do YYYY'));
+			            $('#calendarEndDate').html("End:" + moment(info.event.end).format('MMMM Do YYYY'));
+			            
+			            if(info.event.backgroundColor == "#00BBE5")
+		            	{ $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-info">New</span></div>'); }
+			            else if(info.event.backgroundColor == "#0072bb")
+		            		 { $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-primary">In Progress</span></div>'); }
+			            else if(info.event.backgroundColor == "green")
+			            	 { $('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-success">Completed</span></div>'); }
+			            else if(info.event.backgroundColor == "orange")
+			            	 {	$('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-warning">On Hold</span></div>'); }
+			            else if(info.event.backgroundColor == "red")
+			            	 {	$('#calendarStatus').html('<div class="inline-block"><h5>Status:</h5></div> <div class="inline-block"><span class="badge badge-pill badge-danger">Cancelled</span></div>'); }			            
+			            $('#calendarModal').modal();
+			        }
+
+				});
+				calendar.render(); 				
+		});		
+		</script> 
+
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Avaliability Calendar
+			</li>				
+		</ul>
+
+		<div class="page-content fade-in-up">		  
+  						  
+  			  <div class="row">
+	  			  	<div class="col-lg-12">  
+			  			  <div class="ibox">
+								<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+							 	<h5>Calendar</h5>
+								</div>			
+								<div class="ibox-body"> 			  		  			  
+						  			  <div id='calendar'></div>		  
+								</div>
+						  </div>
+					</div>	 				  		  					  	
+			  </div>		  
+
+		</div> <!-- page-content -->
+	</div><!-- content -->
+
+</body>
+</html>

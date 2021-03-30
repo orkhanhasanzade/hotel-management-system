@@ -1,0 +1,18 @@
+
+
+
+<label>Employee</label>
+<select data-placeholder="Choose employee" class="chosen-select" style="" tabindex="4" id="employee" name="employee" >
+	<option th:each="employee : ${employees}"
+			th:text="${employee.name + ' ' + employee.surname}"
+			th:value="${employee.id}">
+	</option>
+</select>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').chosen({
+			width : '200px'
+		});
+	});
+</script>

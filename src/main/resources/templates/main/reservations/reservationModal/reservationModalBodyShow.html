@@ -1,0 +1,49 @@
+
+
+<table class="table table-bordered" cellspacing="0" width="100%">
+
+	<tr>
+		<td style="font-weight: bold;">Id</td>
+		<td th:text="${reservation.id}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Creation date</td>
+		<td th:text="${reservation.creationDate}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">From date</td>
+		<td th:text="${reservation.fromDate}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">To date</td>
+		<td th:text="${reservation.toDate}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Status</td>
+		<td th:text="${reservation.status}"></td>
+	</tr>
+    <tr>
+		<td style="font-weight: bold;">Payment Status</td>
+		<td th:if="${reservation.paymentStatus eq false}" th:text="${'Not payed'}"></td>
+		<td th:if="${reservation.paymentStatus eq true}"  th:text="${'Payed'}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Check-In date</td>
+		<td th:text="${reservation.checkinDate}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Check-Out date</td>
+		<td th:text="${reservation.checkoutDate}"></td>
+	</tr>
+ 	<tr>
+		<td style="font-weight: bold;">Guest id</td>
+		<td th:text="${reservation.guest.id}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Room id</td>
+		<td th:text="${reservation.room.id}"></td>
+	</tr> 
+
+</table> 
+
+

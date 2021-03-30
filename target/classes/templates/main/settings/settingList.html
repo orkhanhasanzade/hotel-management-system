@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Settings</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+			
+			<!-- START PAGE CONTENT-->
+			<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Settings
+				</li>			
+			</ul>
+		
+		<div class="page-content fade-in-up">
+          
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">
+				 	<h3><div class="inline-block"  th:text="#{page.settings}"> </div>  </h3>
+				</div>
+				
+				<div class="ibox-body"  th:if="${userRole == 'ADMIN'}">
+										
+					<div class="clf">
+                           <ul class="nav flex-column nav-tabs tabs-left">
+                               <li class="nav-item">
+                                     <a class="nav-link active" data-toggle="tab" aria-expanded="false">                                  	
+                                     			<i class="fa fa-gears"></i>	
+                                     			<div class="inline-block"  th:text="#{page.general}"> </div>                                     			
+                                     </a>
+                               </li>
+                            </ul>
+                            <div class="tab-content">
+                                 <div class="tab-pane active show" aria-expanded="true">
+	                                   <form th:action="@{/settings/save}" th:method="POST" >
+		                                  	 <table style="margin-left:5em;">		
+		                                  	 		<tr class="display-none">
+														<th><label>Id:</label></th>
+														<td>
+															<input type="text" th:field="${setting.id}" />
+														</td>
+													</tr>
+													<tr>
+														<th><label th:text="#{page.title}"></label></th>
+														<td>
+															<input type="text" th:field="${setting.title}" />
+														</td>
+													</tr>	
+													<tr>	
+														<th><label th:text="#{lang.language}"></label></th>
+														<td>														
+															<select id="locales" th:field="${setting.language}">
+																<option value=""></option>
+					 											<option value="en" th:text="#{lang.eng}"></option>
+												   				<option value="az" th:text="#{lang.az}"></option> 
+															</select>
+														</td> 
+													</tr> 
+													<tr>
+														<th></th>
+														<td></td>
+													</tr>													
+											 		<tr>
+														  <th>
+																<button type="submit" class="btn btn-primary" th:text="#{page.save}" ></button>
+														  </th>
+													</tr>											
+		                		   			 </table>  
+	 									</form>                                      	
+                                  </div>
+
+                             </div>
+                    </div>
+	
+				</div><!-- ibox-body -->
+			</div><!-- ibox -->
+		</div> <!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+	</div><!-- content -->
+
+</body>
+</html>
+
+		

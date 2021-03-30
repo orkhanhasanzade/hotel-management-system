@@ -1,0 +1,51 @@
+		
+
+<div class="col-xl-8 col-lg-7">
+    <div class="myDepartmentForm">
+        <form th:action="@{/updateDepartment}" th:method="POST" >
+            <div class="modal fade" id="editDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                
+                    <div class="modal-content">
+                    
+                       <!-- HEADER -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit department</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        
+                        <!-- BODY -->
+                        <div class="modal-body">      
+                           <div class = "row">  
+                               <div class="col-sm-6 form-group">
+	                   				 <label>Id</label>
+	                   				 <input  value="" type="text" class="form-control" id="id" name="id" readonly />                        				        		
+	                		   </div>                           
+                           </div>                      
+						   <div class = "row">  
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Name</label>
+	                   				 <input  value="" type="text" class="form-control" id="name" name="name" />                        				        		
+	                		   </div> 
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Description</label>
+	                   				 <input  value="" type="text" class="form-control" id="description" name="description" />                        				        		
+	                		   </div> 
+	                	   </div>              		             		          	               	          
+                        </div>                  
+                        
+                        <!-- FOOTER -->
+                        <div class="modal-footer">
+                            <input  type="submit" class="btn btn-primary" value="Add"/>
+                        </div>
+                        
+           
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+	

@@ -1,0 +1,75 @@
+ 				
+ 						
+	 				  	  <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>Leave Category</label>
+	                   				 <select class="form-control" id="category" name="category"  >
+	                            			<option th:value="Personal">Personal</option> 
+	                            			<option th:value="Sick">Sick</option> 
+	                            			<option th:value="Vacation">Vacation</option> 
+	                            			<option th:value="Study">Study</option> 
+	                       			  </select>                       				        		
+	                		    </div> 	
+	                		     <div class="col-sm-4 form-group">							
+								  	 	 <label>Employee</label> 
+	                       			 	 <select class="form-control" id="employee" name="employee" >
+	                            				<option th:each="employee : ${employees}"  th:text="${employee.name + ' ' + employee.surname}" th:value="${employee.id}" ></option> 
+	                       			  	 </select>
+	                       	   </div>
+					  	  </div>					  	 
+ 						  <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   
+	                		    <div class="col-sm-4 form-group">	                		    
+	                   				 <label>From</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_from">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="From" id="fromDate" name="fromDate" >
+                                    </div>   				                     				        		
+	                		    </div> 
+	                		   <div class="col-sm-4 form-group">	                		    
+	                   				 <label>To</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_to">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="To" id="toDate" name="toDate" >
+                                    </div>   				                     				        		
+	                		    </div> 
+	                		  
+	                	   </div>	
+	                	   <div class="row"> 
+	                	   		<div class="col-sm-4 form-group">
+	                   				 <label>From time</label>
+	                   				 <input  value="" class="form-control" placeholder="HH:mm"  id="fromTime" name="fromTime" />                        				        		
+	                		    </div> 
+	                		    <div class="col-sm-4 form-group">
+	                   				 <label>To time</label>
+	                   				 <input  value="" class="form-control" placeholder="HH:mm"  id="toTime" name="toTime" />                        				        		
+	                		    </div> 	                	                   	   
+	                	        <div class="col-sm-4 form-group">
+	                   				 <label>Hours</label>
+	                   				 <input  value="" class="form-control" placeholder="Hours"  id="hours" name="hours" />                        				        		
+	                		    </div> 
+	                	   </div>               	   					   						   						   						   				                      		                          		                         		    			   						   	                		    
+	                	   <div class="form-group">
+	                   				 <label>Reason/Description</label>
+	                   				 <textarea rows="3"  value="" class="form-control" placeholder="Description and notes"  id="description" name="description"></textarea>                      				        		
+	                	   </div> 
+						   <script type="text/javascript">														
+							$(document).ready(function($){
+								
+								$('#datepicker_from').datepicker({
+						    		uiLibrary: 'bootstrap',
+						    		format: 'mm-dd-yyyy'
+								});
+								$('#datepicker_to').datepicker({
+						    		uiLibrary: 'bootstrap',
+						    		format: 'mm-dd-yyyy'
+								});
+					            
+					        });
+					   		</script> 
+
+
+
+
+
+
+        	   

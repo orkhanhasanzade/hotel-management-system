@@ -1,0 +1,109 @@
+ 						
+ 						
+						   <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   
+	                		    <div class="col-sm-6 form-group">
+	                   				 <label>Gender</label>
+	                   				 <select class="form-control" id="gender" name="gender"  >
+	                            			<option th:value="Male">Male</option> 
+	                            			<option th:value="Female">Female</option> 
+	                       			  </select>                       				        		
+	                		    </div> 	
+	                		    <div class="col-sm-6 form-group">	                		    
+	                   				 <label>Birthday</label>                   				 
+	                   				 <div class="input-group date" id="datepicker_birthday">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" placeholder="Birthday" id="birthdate" name="birthdate" required>
+                                    </div>   				                     				        		
+	                		    </div> 
+					  	  </div>					  	 
+ 						   <div class = "row">  					   						   						   						   				                      		                          		                         		    			   						   
+	                		    <div class="col-sm-6 form-group">
+	                   				 <label>Name</label>
+	                   				 <input  value="" type="text" class="form-control" placeholder="Name" id="name" name="name" required/>                        				        		
+	                		    </div> 
+	                		    <div class="col-sm-6 form-group">
+                   					 <label>Status</label>
+                   					 <select class="form-control" id="status" name="status" >
+                       			        <option th:value="Active">Active</option> 
+                            			<option th:value="Inactive">Inactive</option>                        		
+                       			  	 </select>                     				        		
+                		   		</div>
+	                	   </div>
+	                	   <div class = "row">           		 
+	                		  <div class="col-sm-6 form-group">
+                   					 <label>Middle name</label>
+                   					 <input  value="" type="text" class="form-control" placeholder="Middle name"  id="middleName" name="middleName" required/>                        				        		
+                		   	   </div>     
+                		   	   <div class="col-sm-6 form-group">
+	                   				 <label>Surname</label>
+	                   				 <input  value="" type="text" class="form-control" placeholder="Surname"  id="surname" name="surname" required/>                        				        		
+	                		   </div>               		   	     
+                		   </div>  
+                		   <div class = "row">              		   
+	                		   <div class="col-sm-6 form-group">							
+								  	 	 <label>Department</label> 
+	                       			 	 <select class="form-control" id="department" name="department" >
+	                            				<option th:each="department : ${departments}"  th:text="${department.name}" th:value="${department.id}" ></option> 
+	                       			  	 </select>
+	                       	   </div>	              		 
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Designation</label>
+	                   				 <select class="form-control" id="designation" name="designation" >
+	                            				<option th:each="designation : ${designations}"  th:text="${designation.name}" th:value="${designation.id}" ></option> 
+	                       			 </select>                      				        		
+	                		   </div>  
+	                	   </div>
+	                	   <div class = "row">   
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Staff type</label>
+	                   				 <select class="form-control" id="staff" name="staff"  >
+	                            			<option th:value="Full-time">Full-time</option> 
+	                            			<option th:value="Part-time">Part-time</option> 
+	                            			<option th:value="Casual">Casual</option> 
+	                            			<option th:value="Contracted">Contracted</option> 
+	                       			  </select>                       				        		
+	                		   </div>               		   
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Shift</label>
+	                   				 <select class="form-control" id="shift" name="shift"  >
+	                       			        <option th:value="1">Morning- 04:00 AM - 10:00 AM</option> 
+	                            			<option th:value="2">Day- 10:00 AM - 04:00 PM</option> 
+	                            			<option th:value="3">Evening- 04:00 PM - 10:00 PM</option> 
+	                            			<option th:value="4">Night- 10:00 PM- 04:00 AM</option>                            		
+	                       			  </select>                     				        		
+	                		   </div>
+	                	   </div>
+                		   <div class = "row">       		    
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Mobile number</label>
+	                   				 <input  value="" type="text" class="form-control" placeholder="Mobile number"  id="mobileNumber" name="mobileNumber" required />                        				        		
+	                		   </div>
+	                		   <div class="col-sm-6 form-group">
+	                   				 <label>Bonus grade</label>
+	                   				 <select class="form-control" id="bonusGrade" name="bonusGrade"  >
+	                            			<option th:value="25">25%</option> 
+	                            	 		<option th:value="50">50%</option> 
+	                            			<option th:value="75">75%</option> 
+	                            			<option th:value="100">100%</option>  
+	                       			  </select>                       				        		
+	                		   </div>  	                		              		   
+	                	   </div>           		   
+                		   <div class="form-group">
+                   				 <label>Address</label>
+                   				 <input  value="" type="text" class="form-control" placeholder="Address" id="address" name="address" required/>                        				        		
+                		   </div>                       		                   		 		  		 
+                			  		  		                  		                  		              		   
+                		   <div class="form-group"> 
+							    <label>Image</label>
+				  			    <input type="file" name="file" class="form-control-file" >
+							</div>       
+							<script>
+							$('#datepicker_birthday').datepicker({
+					    		uiLibrary: 'bootstrap',
+					    		format: 'mm-dd-yyyy',
+							}); 
+							</script>
+							
+							
+							
+							

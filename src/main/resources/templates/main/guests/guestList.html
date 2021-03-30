@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Guests</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content"> 
+
+	   	<th:block th:include="main/guests/guestCreate"></th:block>
+	   	<th:block th:include="main/guests/guestEdit"></th:block>
+		<th:block th:include="main/rooms/roomShow"></th:block>
+		<th:block th:include="main/reservations/reservationModal/reservationShow"></th:block>  
+		
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Guests
+				</li>				
+		</ul>	
+		
+		<div class="page-heading">
+			<h1 class="page-title">Guests</h1>
+			<button type="button" class="btn btn-primary btnNewGuest">
+						Add New
+		    </button>  
+		</div>
+		
+		<div class="page-content fade-in-up">
+          
+			<div class="ibox">
+
+				<div class="ibox-head" style = "background-color:#3498db; color:white;">			
+				 	<h5>List</h5>
+				</div>
+				
+				<div class="ibox-body">
+				
+							<table id="guestTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Title</th>
+											<th>Name</th>
+											<th>Surname</th>
+											<th>Middlename</th>
+											<th>Address</th>
+										    <th>Image</th> 
+										    <th>Reservations</th>
+											<th>Rooms</th> 
+											<th>Action</th> 
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="guest : ${guests}">
+											<td th:text="${guest.id}"></td>
+											<td th:text="${guest.title}"></td>
+											<td th:text="${guest.name}"></td>
+											<td th:text="${guest.surname}"></td>
+											<td th:text="${guest.middleName}"></td>
+											<td th:text="${guest.address}"></td>
+											<td>
+											   <img th:src="@{'/images/guests/' + ${guest.imagePath} }" width="150" height="130" >
+											</td> 
+								   		    <td>												
+								 			 	<ul th:each="reservation : ${reservations}" style="list-style-type:none; padding-left:0;">
+                                    				<li th:if="${guest.id eq reservation.guest.id && reservation.status ne 'Finished'}">
+                                          				<a th:href="@{/reservation/show/} + ${reservation.id}" class = "btnShowReservation" >
+                                             				<span th:text="${reservation.id} + ' '"></span>
+									     				</a>
+                                    				</li>
+                                    			</ul>	
+											</td>
+											<td>											
+											   <ul  th:each="reservation : ${reservations}" style="list-style-type:none; padding-left:0; ">
+                                    				<li th:if="${guest.id eq reservation.guest.id && reservation.status ne 'Finished'}">
+                                          				<a th:href="@{/room/showRoom/{id}(id=${reservation.room.id})}" class = "btnShowRoom" >
+                                             				<span th:text="${reservation.room.id}"></span>
+									     				</a>
+                                    				</li>
+                                    	       </ul>	                               	                                        	       														
+										    </td>	
+									        <td>									          
+											   <a	th:href="@{/guest/edit/} + ${guest.id}"
+												    class="btn btn-default btn-xs m-r-5 btnEditGuest"
+													data-toggle="tooltip" data-original-title="Edit"> <i
+													class="fa fa-pencil font-20"></i></a>
+													
+											   <a th:href="@{/guest/show/} + ${guest.id}"
+													class="btn btn-default btn-xs m-r-5 "
+													data-toggle="tooltip" data-original-title="Show"> <i
+													class="fa fa-eye font-20"></i></a> 
+											   <a
+												 	th:href="@{/guest/delete/} + ${guest.id}"
+													class="btn btn-default btn-xs" data-toggle="tooltip"
+													data-original-title="Delete"> <i
+													class="fa fa-trash font-20"></i></a> 
+											</td> 																					
+										</tr>
+									</tbody>
+								</table>																
+					
+				</div><!-- ibox-body -->
+			</div><!-- ibox -->
+		</div> <!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 	
+	
+	<script>
+	$(document).ready(function()
+	{
+		$('#guestTable').DataTable( {
+			dom: 'Bfrtip',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ]
+	    });
+	});	
+    	<!-- Create NEW guest Modal -->
+    	$('.btnNewGuest').on('click', function(event)
+    	{
+    		 $('.newGuestForm #id').val('');
+    		 $('.newGuestForm #floor').val('');
+    		 $('.newGuestForm #roomNumber').val('');   		 
+    		 $('.newGuestForm #nationality').val('');
+    		 $('.newGuestForm #country').val('');
+    		 $('.newGuestForm #city').val('');    		 
+    		 $('.newGuestForm #type').val('');
+    		 $('.newGuestForm #rent').val('');
+    		 $('.newGuestForm #readiness').val('');
+    	
+         	 $('.newGuestForm #newGuestModal').modal();  
+    	});
+		<!-- EDIT guest modal-->
+        $('.btnEditGuest').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault();
+            var href_1 = $(this).attr('href');
+
+            $.get(href_1, function(guest){
+            	$('.myGuestForm #id').val(guest.id);
+            	$('.myGuestForm #name').val(guest.name);
+                $('.myGuestForm #surname').val(guest.surname);
+                $('.myGuestForm #middleName').val(guest.middleName);               
+                $('.myGuestForm #nationality').val(guest.nationality);
+                $('.myGuestForm #country').val(guest.country);
+                $('.myGuestForm #city').val(guest.city); 
+                $('.myGuestForm #email').val(guest.email); 
+                $('.myGuestForm #country').val(guest.country); 
+                $('.myGuestForm #mobileNumber').val(guest.mobileNumber);
+                $('.myGuestForm #address').val(guest.address);
+            });
+
+            $('.myGuestForm #editGuestModal').modal();
+        });
+        <!-- Reservation Show -->
+        $('.btnShowReservation').on('click', function(event){
+            //prevents redirection to blank page with JSON-Task-Object
+            event.preventDefault(); 
+            var href_9 = $(this).attr('href');
+            
+            $.get(href_9, function(data){              	
+            	 $("#modal-body-reservation-show").html(data);  
+            });
+          
+            $('#reservationShowModal').modal('show'); 
+        });
+    	<!-- SHOW room details --> 
+        $('.btnShowRoom').on('click', function(event){
+             //prevents redirection to blank page with JSON-Task-Object
+             event.preventDefault(); 
+             var href_3 = $(this).attr('href');
+             
+             $.get(href_3, function(data){              	
+            	 $("#modal-body-room").html(data); 
+             });
+           
+             $('#roomModal').modal('show'); 
+        });
+	</script>
+	</div><!-- content -->
+	
+</body>
+</html> 
+	

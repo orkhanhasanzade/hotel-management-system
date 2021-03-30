@@ -1,0 +1,52 @@
+<style>
+#modal-body-tasks
+{        
+          height:700px !important;
+}
+</style>
+<div class="modal" id="taskModal">
+	<div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h4 class="modal-title">Tasks</h4>    
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div><div class="container"></div>
+        
+        <div class="modal-body" id= "modal-body-tasks">       
+         	<!--  Body of this model comes from taskModalBody.html  -->
+        </div>
+        
+        <div class="modal-footer">
+        </div>
+        
+      </div>
+    </div>
+</div>
+
+ <div class="editTaskForm">
+	<form th:action="@{/updateTaskFromProjects}" id="taskForm"  th:method="post" >
+		<div class="modal" id="editTaskModal" data-backdrop="static">
+			<div class="modal-dialog">
+		      <div class="modal-content">
+		      
+		        <div class="modal-header">
+		          <h4 class="modal-title">Edit task</h4>
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		        </div><div class="container"></div>
+		        
+		        <div class="modal-body" id = "modal-body-task-edit">		
+					   <!--  Body of this model comes from taskModalBodyEdit.html  -->
+		        </div>
+		        
+		        <div class="modal-footer">
+		        	<button type="submit" class="btn btn-primary btnForm">Submit</button>	
+		        </div>
+		      </div>
+		    </div>
+		</div>
+		</div>
+	</form>
+</div>
+
+        

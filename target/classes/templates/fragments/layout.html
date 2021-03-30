@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width initial-scale=1.0">
+<title>Dashboard</title>
+
+<!-- GLOBAL MAINLY STYLES-->
+<link th:href="@{/assets/vendors/bootstrap/dist/css/bootstrap.min.css}"    rel="stylesheet" /> 
+<link th:href="@{/assets/vendors/font-awesome/css/font-awesome.min.css}"   rel="stylesheet" />
+<link th:href="@{/assets/vendors/themify-icons/css/themify-icons.css}"     rel="stylesheet" />
+
+<!-- PLUGINS STYLES-->
+<link th:href="@{/assets/vendors/jvectormap/jquery-jvectormap-2.0.3.css}"  rel="stylesheet" />
+<link th:href="@{/assets/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css}" rel="stylesheet" />
+
+<!-- DataTables -->
+<link rel="stylesheet" th:href="@{/assets/css/dataTables.bootstrap4.min.css}"> 
+<link rel="stylesheet" th:href="@{/assets/css/buttons.dataTables.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/jquery.dataTables.min.css}">
+
+<!-- THEME STYLES -->
+<link th:href="@{/assets/css/main.min.css}" rel="stylesheet" />
+
+<!-- Bootstrap Toggle	 -->
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap-toggle.min.css}">
+
+<!-- MAIN STYLE FOR ALL PAGES -->
+<link rel="stylesheet" th:href="@{/assets/css/style.css}"> 
+
+</head>
+
+<body class="nav-md">
+
+  <div class="page-wrapper">
+
+			<!-- top navigation -->
+			<div data-th-replace="fragments/navigation :: navigation"></div>
+
+			<!-- sidebar menu -->
+			<div data-th-replace="fragments/sidebar :: sidebar"></div>
+			
+      <div class="content-wrapper">
+      
+			<!-- page content -->
+			<div data-layout-fragment="content"></div> 
+			
+			<!-- footer -->
+			<div data-th-replace="fragments/footer :: footer"></div>
+      </div>
+  </div>
+		    
+</body>
+</html>

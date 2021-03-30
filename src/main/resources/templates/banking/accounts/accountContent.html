@@ -1,0 +1,58 @@
+
+<table id="accountTable" class="table table-bordered table-head" cellspacing="0" width="100%">
+	<thead class="table-head">
+		<tr>
+			<th>Number</th>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Balance</th>
+			<th>Owner employee</th>
+			<th>History</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="account : ${accounts}">
+			<td th:text="${account.number}"></td>
+			<td th:text="${account.name}"></td>
+			<td th:text="${account.description}"></td>
+			<td th:text="${account.balance}"></td>
+			<td>
+				<span> 
+				<img class="img-circle" width="30" height="30" th:src="@{'/images/employees/' + ${account.employee.imagePath} }">
+					<a th:text="${account.employee.name + ' ' + account.employee.surname }" th:href="@{/employee/show/} + ${account.employee.id}">
+					</a>
+				</span>
+			</td>
+			<td>
+				<button type="button" class="btn btn-info btnShowAccountHistory"
+					th:href="@{/account/history/} + ${account.id}">History</button>
+			</td>
+			<td>
+				<a th:href="@{/account/edit/} + ${account.id}"
+					class="btn btn-default btn-xs m-r-5 btnEditAccount"
+					data-toggle="tooltip" data-original-title="Edit"> 
+					<i	class="fa fa-pencil font-20"></i>
+				</a> 
+				<a	th:href="@{/account/delete/} + ${account.id}"
+					class="btn btn-default btn-xs" data-toggle="tooltip"
+					data-original-title="Delete"> 
+					<i class="fa fa-trash font-20"></i>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<script>
+	$('#accountTable').DataTable({
+		"lengthChange" : false
+	});
+</script>
+
+
+
+
+
+
+

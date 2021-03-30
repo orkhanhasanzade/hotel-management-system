@@ -1,0 +1,66 @@
+		
+		
+		<div class="row">
+			<div class="col-sm-4 form-group">
+				<label>Name</label> <input value="" class="form-control"
+					placeholder="Enter Name" id="name" name="name" />
+			</div>
+			<div class="col-sm-2 form-group">
+				<label>Year</label> <input value="" class="form-control"
+					placeholder="Year" id="year" name="year" />
+			</div>
+			<div class="col-sm-4 form-group">
+				<label>Month</label> <select class="form-control" id="month"
+					name="month">
+					<option th:value="1">January</option>
+					<option th:value="2">February</option>
+					<option th:value="3">March</option>
+					<option th:value="4">April</option>
+					<option th:value="5">May</option>
+					<option th:value="6">June</option>
+					<option th:value="7">July</option>
+					<option th:value="8">August</option>
+					<option th:value="9">September</option>
+					<option th:value="10">October</option>
+					<option th:value="11">November</option>
+					<option th:value="12">December</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 form-group">
+				<label>Start Date</label>
+				<div class="input-group date" id="datepicker_holidayFrom">
+					<span class="input-group-addon bg-white"><i
+						class="fa fa-calendar"></i></span> <input class="form-control" type="text"
+						placeholder="Start Date" id="fromDate" name="fromDate">
+				</div>
+			</div>
+			<div class="col-sm-4 form-group">
+				<label>End Date</label>
+				<div class="input-group date" id="datepicker_holidayTo">
+					<span class="input-group-addon bg-white"><i
+						class="fa fa-calendar"></i></span> <input class="form-control" type="text"
+						placeholder="End Date" id="toDate" name="toDate">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Description</label>
+			<textarea rows="3" value="" class="form-control"
+				placeholder="Enter Your Description" id="description"
+				name="description"></textarea>
+		</div>
+		
+		<script>
+			$('#datepicker_holidayFrom').datepicker({
+				uiLibrary : 'bootstrap'
+			});
+			$('#datepicker_holidayTo').datepicker({
+				uiLibrary : 'bootstrap'
+			});
+		</script>
+
+
+
+

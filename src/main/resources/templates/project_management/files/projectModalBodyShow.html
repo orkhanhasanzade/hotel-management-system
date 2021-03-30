@@ -1,0 +1,28 @@
+	
+
+<table class="table table-bordered" cellspacing="0" width="100%">
+
+	<tr>
+		<td style="font-weight: bold;">Id</td>
+		<td th:text="${project.id}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Name</td>
+		<td th:text="${project.name}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Description</td>
+		<td th:text="${project.description}"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Status</td>
+		<td>
+			<span th:if="${project.status == 'Progress'}" class="badge badge-success">In Progress</span>								
+			<span th:if="${project.status == 'Completed'}" class="badge badge-primary">Completed</span>	
+			<span th:if="${project.status == 'Cancelled'}" class="badge badge-danger">Cancelled</span> 
+			<span th:if="${project.status == ''}" class="badge badge-secondary">Not selected</span>		
+		</td>
+	</tr>
+
+</table> 
+

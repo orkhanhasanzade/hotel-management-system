@@ -1,0 +1,107 @@
+		
+
+			<div class="ibox">	
+					<div class="ibox-head" style="color: #495057; ">
+						<h3>
+							Guests Report
+						</h3>
+						<div id="test">				
+						</div>	
+					</div>	 
+					<div class="ibox-body">				  
+						
+							<table id="guestTable3" class="table table-bordered table-head" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Title</th>
+											<th>Name</th>
+											<th>Surname</th>
+											<th>Middlename</th>
+											<th>Address</th>
+										    <th>Image</th> 
+										    <th>Reservations</th>
+											<th>Rooms</th> 
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="guest : ${guests}">
+											<td th:text="${guest.id}"></td>
+											<td th:text="${guest.title}"></td>
+											<td th:text="${guest.name}"></td>
+											<td th:text="${guest.surname}"></td>
+											<td th:text="${guest.middleName}"></td>
+											<td th:text="${guest.address}"></td>
+											<td>
+											   <img th:src="@{'/images/guests/' + ${guest.imagePath} }" >
+											</td> 
+								   		    <td>												
+								 			 	<ul th:each="reservation : ${reservations}" style="list-style-type:none; padding-left:0;">
+                                    				<li th:if="${guest.id eq reservation.guest.id}">
+                                          				<a th:href="@{/reservation/show/} + ${reservation.id}" class = "btnShowReservation" >
+                                             				<span th:text="${reservation.id} + ' '"></span>
+									     				</a>
+                                    				</li>
+                                    			</ul>	
+											</td>
+											<td>											
+											   <ul  th:each="reservation : ${reservations}" style="list-style-type:none; padding-left:0; ">
+                                    				<li th:if="${guest.id eq reservation.guest.id}">
+                                          				<a th:href="@{/room/showRoom/{id}(id=${reservation.room.id})}" class = "btnShowRoom" >
+                                             				<span th:text="${reservation.room.id}"></span>
+									     				</a>
+                                    				</li>
+                                    	       </ul>	                               	                                        	       														
+										    </td>																						
+										</tr>
+									</tbody>
+								</table>
+					 
+					</div>
+					<!-- ibox-body -->
+				</div>
+				<!-- ibox -->			
+		
+			<script>		
+	 		$(document).ready(function()
+			{							
+				var table = $('#guestTable3').DataTable( {
+					dom: 'Bfrtip',
+			        buttons: [
+			          	  { 
+			        		extend: 'excel', 
+			        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+			        	  }
+			        ]
+			    });
+				table.buttons().container().appendTo($('#test'));
+				
+				<!-- SHOW room details --> 
+		        $('.btnShowRoom').on('click', function(event){
+		             //prevents redirection to blank page with JSON-Task-Object
+		             event.preventDefault(); 
+		             var href_3 = $(this).attr('href');
+		             
+		             $.get(href_3, function(data){              	
+		            	 $("#modal-body-room").html(data); 
+		             });
+		           
+		             $('#roomModal').modal('show'); 
+		        });
+		        
+		        <!-- Reservation Show -->
+		        $('.btnShowReservation').on('click', function(event){
+		             //prevents redirection to blank page with JSON-Task-Object
+		             event.preventDefault(); 
+		             var href_9 = $(this).attr('href');
+		             
+		             $.get(href_9, function(data){              	
+		             	 $("#modal-body-reservation-show").html(data);  
+		             });
+		           
+		             $('#reservationShowModal').modal('show'); 
+		         });
+				
+			});	 
+			</script>

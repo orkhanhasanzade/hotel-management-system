@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="~{fragments/layout}">
+
+<head>
+<title>Accounts</title>
+</head>
+
+<body>
+
+	<div data-layout-fragment="content">
+	
+	 	<th:block th:include="banking/accounts/accountCreate"></th:block> 
+ 		<th:block th:include="banking/accounts/accountEdit"></th:block>  
+ 		<th:block th:include="banking/accounts/historyModal"></th:block>  
+
+		<!-- START PAGE CONTENT-->
+ 		<div class="page-heading"></div>  
+		<ul class="breadcrumb" style="background-color: #f1f1f1;">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Accounts
+				</li>				
+		</ul>
+ 
+		<div class="page-content fade-in-up">
+
+			<div id="taskTableContent">
+				<div class="ibox">
+
+					<div class="ibox-head" style="color: black;">
+						<h2 class="">
+							<i class="fa fa-database" aria-hidden="true"></i> Accounts
+						</h2>
+						<div id="test">
+							<button type="button" class="btn btn-primary btnNewAccount" th:href="@{/account/create}">
+								Add New Account</button>
+						</div>
+					</div>
+					<br></br>
+					<div class="ibox-body">
+					
+						<div>						
+						   <form th:action="@{/accounts-report-1}" id="accountReportForm">
+							<div class="row">								
+								<div class="col-sm-2 form-group">
+									<h6>Employee</h6>
+									<select class="form-control" id="employeeId" name="employeeId">
+										<option th:value="all">All employees</option>
+										<option th:each="employee : ${employees}"
+												th:text="${employee.name + ' ' + employee.surname}"
+												th:value="${employee.id}"></option>
+									</select>
+								</div>	
+								<div class="col-sm-2">
+									<br>
+									<button type="submit" class="btn btn-success">Search</button>
+								</div>
+							</div>							
+						  </form>					
+						</div>				
+
+						<div id="report">
+							
+							<table id="accountTable" class="table table-bordered table-head" cellspacing="0" width="100%">							
+								<thead class="table-head">
+									<tr>
+										<th>Number</th>
+										<th>Name</th>
+								   	    <th>Description</th> 
+								   	    <th>Balance</th>
+										<th>Owner employee</th>
+										<th>History</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="account : ${accounts}">
+										<td th:text="${account.number}"></td>
+										<td th:text="${account.name}"></td>	
+										<td th:text="${account.description}"></td>	
+										<td th:text="${account.balance}"></td>										
+										<td>
+											<span>
+											     <img class="img-circle" width="30" height="30"
+												 th:src="@{'/images/employees/' + ${account.employee.imagePath} }" >
+												 <a th:text="${account.employee.name + ' ' + account.employee.surname }"
+												 	th:href="@{/employee/show/} + ${account.employee.id}" ></a>
+											</span>
+										</td> 
+										<td> 
+											<button type="button" class="btn btn-info btnShowAccountHistory" 
+														th:href="@{/account/history/} + ${account.id}" >
+														History
+											</button>
+										</td> 
+										<td>
+											<a  th:href="@{/account/edit/} + ${account.id}"
+												class="btn btn-default btn-xs m-r-5 btnEditAccount"
+												data-toggle="tooltip" data-original-title="Edit"> 
+												<i class="fa fa-pencil font-20"></i></a> 										
+											<a  th:href="@{/account/delete/} + ${account.id}"
+												class="btn btn-default btn-xs" data-toggle="tooltip"
+												data-original-title="Delete"> 
+												<i class="fa fa-trash font-20"></i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- ibox-body -->
+				</div>
+				<!-- ibox -->
+			</div>
+		</div>
+		<!-- page-content -->
+		
+		<!-- scripts -->
+		<div data-th-replace="fragments/scripts :: scripts"></div> 
+
+		<script>		
+		$(document).ready(function()
+		{	
+			var table = $('#accountTable').DataTable( {
+				dom: 'Bfrtip',
+		        buttons: [
+		          	  { 
+		        		extend: 'excel', 
+		        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+		        	  }
+		        ]
+		    });
+			table.buttons().container().appendTo($('#test'));				
+		});	
+			
+			 <!-- Create New Account Modal --> 
+	         $('.btnNewAccount').on('click', function(event){
+	             //prevents redirection to blank page with JSON-Task-Object
+	             event.preventDefault(); 
+	             var href = $(this).attr('href');
+	             
+	             $.get(href, function(data){              	
+	             	 $("#modal-body-account-create").html(data);
+	             });
+	           
+	             $('#newAccountModal').modal('show'); 
+	         });
+			
+	        <!-- Edit Account Modal-->
+	 		$('.btnEditAccount').on('click', function(event){
+			    //prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();
+			    var href = $(this).attr('href');
+			
+			    $.get(href, function(data){
+			    	$("#modal-body-account-edit").html(data);  
+			    });
+			
+			    $('#editAccountModal').modal('show'); 
+			});					 				
+			
+			<!-- Show Transactions History -->
+		 	$('.btnShowAccountHistory').on('click', function(event)
+		 	{
+				    //prevents redirection to blank page with JSON-Task-Object
+				    event.preventDefault();
+				    var href = $(this).attr('href');				
+				    $.get(href, function(data){
+				    	$("#modal-body-transactions").html(data);  
+				    });				
+				    $('#transactionsModal').modal('show'); 
+		    });
+		 	
+		 	$("#accountReportForm").submit( function(event) 
+			{ 
+		 		//prevents redirection to blank page with JSON-Task-Object
+			    event.preventDefault();	
+		 		
+		 		//get form action url  
+				let post_url = document.getElementById('accountReportForm').action													
+									
+				//Encode form elements for submission
+				let form_data = $("#accountReportForm :input").serializeArray();
+				$.get(post_url, form_data, function(response) 
+				{
+						$("#report").empty();			
+						$("#report").append(response);						
+				});	 		
+			});	
+		</script>
+
+	</div>
+	<!-- content -->
+
+</body>
+</html>
+

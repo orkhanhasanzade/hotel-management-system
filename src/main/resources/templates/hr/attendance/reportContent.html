@@ -1,0 +1,73 @@
+		
+
+			 <div class="ibox">	
+					<div class="ibox-head" style="background-color: #3498db; color: white;">
+						<h5>List</h5>
+						<div id="test">				
+					
+						</div>
+					</div> 
+					<div class="ibox-body">				  						
+						 <table id="attendanceTable2" class="table table-bordered table-head" cellspacing="0" width="100%">
+							    <thead>
+									<tr>
+										<th>Id</th>
+										<th>Employee</th>
+										<th>Date</th>
+										<th>In time</th>
+										<th>Out time</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="attendance : ${attendances}">
+										<td th:text="${attendance.id}"></td>
+										<td th:text="${attendance.employee.name + ' ' + attendance.employee.surname}"></td>
+										<td th:text="${attendance.date}"></td>
+										<td th:text="${attendance.inTime}"></td>
+										<td th:text="${attendance.outTime}"></td>
+										<td><a th:href="@{/attendance/edit/} + ${attendance.id}"
+											class="btn btn-default btn-xs m-r-5 btnEditAttendance"
+											data-toggle="tooltip" data-original-title="Edit"> <i
+												class="fa fa-pencil font-20"></i></a> <a
+											th:href="@{/attendance/delete/} + ${attendance.id}"
+											class="btn btn-default btn-xs" data-toggle="tooltip"
+											data-original-title="Delete"> <i
+												class="fa fa-trash font-20"></i></a></td>
+									</tr>
+								</tbody>
+						  </table>					 
+					</div>
+					<!-- ibox-body -->
+				</div>
+				<!-- ibox -->			
+		
+			<script>		
+	 		$(document).ready(function()
+			{							
+				var table = $('#attendanceTable2').DataTable( {
+					dom: 'Bfrtip',
+			        buttons: [
+			          	  { 
+			        		extend: 'excel', 
+			        		text: '<a href="#"><i class="fa fa-paper-plane-o"></i> Export Excel</a>'		        		
+			        	  }
+			        ]
+			    });
+				table.buttons().container().appendTo($('#test'));
+				
+			      <!-- Edit Attendance modal-->
+			 		$('.btnEditAttendance').on('click', function(event){
+					    //prevents redirection to blank page with JSON-Task-Object
+					    event.preventDefault();
+					    var href = $(this).attr('href');
+					
+					    $.get(href, function(data){
+					    	$("#modal-body-attendance-edit").html(data);  
+					    });
+					
+					    $('#editAttendanceModal').modal('show'); 
+					});
+				
+			});	 
+			</script>
